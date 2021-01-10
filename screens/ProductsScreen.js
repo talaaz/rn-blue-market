@@ -1,17 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 
 
 const ProductsScreen = props => {
+    const products = useSelector(state => state.products.availableProducts);
     return (
-        <View style={styles.container}>
-          <Text>Products screen</Text>
-          <StatusBar style="auto" />
-        </View>
+        <FlatList 
+            data ={products}
+            keyExtractor ={item => item.id}
+            renderItem={itemData => <Text>{itemData.item.title}</Text>}
+        />
       )
 }
 
-
+ProductsScreen.navigationOptions= () => {
+    return{  
+         headerTitle: 'Blue Market',
+    }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -22,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductsScreen
+export default ProductsScreen;

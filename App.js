@@ -3,9 +3,21 @@ import React , { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
+import { createStore, combineReducers } from "redux";
+import { Provider } from 'react-redux'
 
-enableScreens();
+import productsReducer from './store/reducers/products'
 
+import ShoppingNavigator from './navigation/ShoppingNavigator'
+
+//enableScreens();
+
+
+const rootReducer = combineReducers({
+  products: productsReducer
+});
+
+const store = createStore(rootReducer);
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -29,10 +41,10 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Blue market bitches</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <ShoppingNavigator />
+     </Provider>
+
   );
 }
 
