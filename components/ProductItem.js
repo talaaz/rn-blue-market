@@ -18,7 +18,7 @@ const ProductItem = props => {
 
 
                 <View style={{...styles.productRow,...styles.productDetail}}>
-                    <Button style={styles.button} title="add to cart" onPress={props.onAddToCart}/>
+                    <Button style={styles.button} title="add to basket" onPress={props.onAddToBasket}/>
                     <Text>${props.price.toFixed(2)}</Text>
                     <Button style={styles.button}  title="details" onPress={props.onViewDetail}/>
                 </View>

@@ -2,13 +2,21 @@
 import React from 'react';
 import { Button } from 'react-native';
 import {ScrollView, Text,Image, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector , useDispatch} from 'react-redux'
+import * as basketActions from "../store/actions/basket"
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderButton  from "../components/HeaderButton";
+
 
 const ProductDetailsScreen = props => {
-  //select the product which user has clicked on
+  //get data out of store 
   const availableProducts = useSelector(state =>  state.products.availableProducts);
+   //select the product which user has clicked on
   const productId = props.navigation.getParam('productId');
   const selectedProducts = availableProducts.find(prod => prod.id===productId);
+
+  const dispatch = useDispatch();
+
 
     //UI 
     return (
@@ -18,7 +26,12 @@ const ProductDetailsScreen = props => {
             />
       <Text>{selectedProducts.title}</Text>
       <Text>EWF</Text>
-      <Button title="add to basket"/>
+      <Button title="add to basket" 
+               onPress = {() => {
+                //dispatch(basketActions.addToBasket( selectedProducts ))
+                
+            }}
+      />
       </ScrollView>
       )
 }
@@ -26,7 +39,18 @@ const ProductDetailsScreen = props => {
 //Make the title as the clicked product's title
 ProductDetailsScreen.navigationOptions= navData => {
   return{  
-    headerTitle: navData.navigation.getParam('productTitle')
+    headerTitle: navData.navigation.getParam('productTitle'),
+
+ headerRight:( 
+   <HeaderButtons HeaderButtonComponent={HeaderButton}>
+    <Item title="Menu"
+        iconName="ios-cart"
+        onPress= {()=>{
+           navData.navigation.navigate('Basket')
+        }}
+    />
+  </HeaderButtons>
+),
   }
 }
 

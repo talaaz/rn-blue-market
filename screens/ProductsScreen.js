@@ -1,13 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
 import ProductItem from '../components/ProductItem';
-//var RotatingView = require('react-native-rotating-view');
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton  from "../components/HeaderButton";
+import {useSelector, useDispatch} from 'react-redux';
+import * as basketActions from "../store/actions/basket"
+
 
 const ProductsScreen = props => {
     const products = useSelector(state => state.products.availableProducts);
+   
+    const dispatch = useDispatch();
+
     return (
       <View style={styles.list}>
         <FlatList 
@@ -25,8 +29,8 @@ const ProductsScreen = props => {
               productTitle: itemData.item.title
             });
             }}
-            onAddToCart = {() => {
-              props.navigation.navigate({routeName:'Basket'});
+            onAddToBasket = {() => {
+              dispatch(basketActions.addToBasket(itemData.item))
             }}
             />}
         />
@@ -46,7 +50,19 @@ ProductsScreen.navigationOptions= (navData) => {
               }}
           />
         </HeaderButtons>
-    )}
+    ),
+    headerRight:( 
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+       <Item title="Menu"
+           iconName="ios-cart"
+           onPress= {()=>{
+              navData.navigation.navigate('Basket')
+           }}
+       />
+     </HeaderButtons>
+ ),
+  
+  }
  
 };
 
