@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import ProductItem from '../components/ProductItem';
 //var RotatingView = require('react-native-rotating-view');
-
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderButton  from "../components/HeaderButton";
 
 const ProductsScreen = props => {
     const products = useSelector(state => state.products.availableProducts);
@@ -33,11 +34,21 @@ const ProductsScreen = props => {
       )
 }
 
-ProductsScreen.navigationOptions= () => {
+ProductsScreen.navigationOptions= (navData) => {
     return{  
          headerTitle: 'Blue Market',
-    }
-}
+         headerLeft:( 
+         <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item title="Menu"
+              iconName="ios-menu"
+              onPress= {()=>{
+                  navData.navigation.toggleDrawer();
+              }}
+          />
+        </HeaderButtons>
+    )}
+ 
+};
 
 const styles = StyleSheet.create({
   list: {

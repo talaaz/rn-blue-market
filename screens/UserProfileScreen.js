@@ -6,7 +6,6 @@ const UserProfileScreen = props => {
     return (
         <View style={styles.container}>
           <Text>UserProfileScreen</Text>
-          <StatusBar style="auto" />
         </View>
       )
 }

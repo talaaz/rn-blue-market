@@ -11,6 +11,7 @@ import ProductsScreen from "../screens/ProductsScreen";
 import ProductDetailsScreen from '../screens/ProductDetailsScreen';
 import BasketScreen from '../screens/BasketScreen';
 import FiltersScreen from '../screens/FiltersScreen';
+import UserProfileScreen  from '../screens/UserProfileScreen';
 
 import { Ionicons } from '@expo/vector-icons';
 const defatultStackNavOptions = {
@@ -41,11 +42,20 @@ const FiltersNavigator = createStackNavigator({
 })
 
 
+const UserProfileNavigator = createStackNavigator({
+    UserProfile: UserProfileScreen
+
+}, {
+    defaultNavigationOptions: defatultStackNavOptions
+})
+
+
 const MainNavigator = createDrawerNavigator({
     Home: {
         screen: ProductsNavigator
     },
-    Filters: FiltersNavigator
+    Filters: FiltersNavigator,
+    User: UserProfileNavigator
 
 }, {
     contentOptions: {

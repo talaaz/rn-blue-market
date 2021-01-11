@@ -6,7 +6,6 @@ const SignInScreen = props => {
     return (
         <View style={styles.container}>
           <Text>Sign in</Text>
-          <StatusBar style="auto" />
         </View>
       )
 }
