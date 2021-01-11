@@ -8,8 +8,11 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import Colors from '../constants/Colors';
 
 import ProductsScreen from "../screens/ProductsScreen";
+import ProductDetailsScreen from '../screens/ProductDetailsScreen';
+import BasketScreen from '../screens/BasketScreen';
+import FiltersScreen from '../screens/FiltersScreen';
 
-
+import { Ionicons } from '@expo/vector-icons';
 const defatultStackNavOptions = {
     headerStyle: {
         backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
@@ -18,11 +21,37 @@ const defatultStackNavOptions = {
 }
 
 const ProductsNavigator = createStackNavigator({
-    Products: ProductsScreen
+    Products: ProductsScreen,
+    ProductDetail :{
+        screen: ProductDetailsScreen
+    },
+    Basket:{
+        screen: BasketScreen
+    }
+
 }, {
     defaultNavigationOptions: defatultStackNavOptions
 });
 
+const FiltersNavigator = createStackNavigator({
+    Filters: FiltersScreen
+
+}, {
+    defaultNavigationOptions: defatultStackNavOptions
+})
 
 
-export default createAppContainer(ProductsNavigator);
+const MainNavigator = createDrawerNavigator({
+    Home: {
+        screen: ProductsNavigator
+    },
+    Filters: FiltersNavigator
+
+}, {
+    contentOptions: {
+        activeTintColor: Colors.primaryColor,
+    }
+})
+
+
+export default createAppContainer(MainNavigator);
