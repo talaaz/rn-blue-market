@@ -7,6 +7,7 @@ import FormInput from "../components/FormInput";
 import Loading from "../components/Loading";
 import { AuthContext } from "../navigation/AuthProvider";
 
+
 export default function SignupScreen({ navigation }) {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");

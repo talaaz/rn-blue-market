@@ -6,7 +6,6 @@ const FiltersScreen = props => {
     return (
         <View style={styles.container}>
           <Text>FiltersScreen</Text>
-          <StatusBar style="auto" />
         </View>
       )
 }

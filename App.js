@@ -7,14 +7,15 @@ import { createStore, combineReducers } from "redux";
 import { Provider } from 'react-redux'
 
 import productsReducer from './store/reducers/products'
-
+import basketReducer from "./store/reducers/basket";
 import ShoppingNavigator from './navigation/ShoppingNavigator'
 
 //enableScreens();
 
 
 const rootReducer = combineReducers({
-  products: productsReducer
+  products: productsReducer,
+  basket: basketReducer
 });
 
 const store = createStore(rootReducer);

@@ -6,7 +6,6 @@ const SellProductScreen = props => {
     return (
         <View style={styles.container}>
           <Text>SellProductScreen</Text>
-          <StatusBar style="auto" />
         </View>
       )
 }
