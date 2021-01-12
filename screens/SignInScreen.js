@@ -1,25 +1,73 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+/*
+https://www.chatkitty.com/blog/posts/building-a-chat-app-with-react-native-and-firebase-part-1/
+*/
+import React, { useState, useContext } from "react";
+import { StyleSheet, View } from "react-native";
+import { Title, Text } from "react-native-paper";
 
+import FormButton from "../components/FormButton";
+import FormInput from "../components/FormInput";
+import Loading from "../components/Loading";
 
-const SignInScreen = props => {
-    return (
-        <View style={styles.container}>
-          <Text>Sign in</Text>
-          <StatusBar style="auto" />
-        </View>
-      )
+import { AuthContext } from "../navigation/AuthProvider";
+
+export default function LoginScreen({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { login, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  return (
+    <View style={styles.container}>
+      <Title style={styles.titleText}>Welcome!</Title>
+      <FormInput
+        labelName="Email"
+        value={email}
+        autoCapitalize="none"
+        onChangeText={(userEmail) => setEmail(userEmail)}
+      />
+      <FormInput
+        labelName="Password"
+        value={password}
+        secureTextEntry={true}
+        onChangeText={(userPassword) => setPassword(userPassword)}
+      />
+      <FormButton
+        title="Login"
+        modeValue="contained"
+        labelStyle={styles.loginButtonLabel}
+        onPress={() => login(email, password)}
+      />
+      <FormButton
+        title="Sign up here"
+        modeValue="text"
+        uppercase={false}
+        labelStyle={styles.navButtonText}
+        onPress={() => navigation.navigate("Signup")}
+      />
+    </View>
+  );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#f5f5f5",
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  titleText: {
+    fontSize: 24,
+    marginBottom: 10,
+  },
+  loginButtonLabel: {
+    fontSize: 22,
+  },
+  navButtonText: {
+    fontSize: 16,
   },
 });
-
-export default SignInScreen;
