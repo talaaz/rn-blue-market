@@ -9,7 +9,6 @@ import FormButton from "../components/FormButton";
 import FormInput from "../components/FormInput";
 import Loading from "../components/Loading";
 
-
 import { AuthContext } from "../navigation/AuthProvider";
 
 export default function LoginScreen({ navigation }) {
@@ -41,14 +40,14 @@ export default function LoginScreen({ navigation }) {
         title="Login"
         modeValue="contained"
         labelStyle={styles.loginButtonLabel}
-        onPress={() => login(email, password)}
+        onPress={() => loginWithEmailAndPassword(email, password)}
       />
       <FormButton
         title="Sign up here"
         modeValue="text"
         uppercase={false}
         labelStyle={styles.navButtonText}
-        onPress={() => navigation.navigate("Signup")}
+        onPress={() => navigation.navigate("SignUp")}
       />
     </View>
   );
