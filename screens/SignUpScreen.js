@@ -1,20 +1,42 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { IconButton, Title } from "react-native-paper";
+import { IconButton, Title, Text } from "react-native-paper";
 
 import FormButton from "../components/FormButton";
 import FormInput from "../components/FormInput";
 import Loading from "../components/Loading";
-import { AuthContext } from "../navigation/AuthProvider";
 
+import { firebase } from "../firebase";
 
 export default function SignupScreen({ navigation }) {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [successful, setSuccessful] = useState(false);
 
-  const { register, loading } = useContext(AuthContext);
+  register = async (displayName, email, password) => {
+    setLoading(true);
 
+    try {
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((credential) => {
+          credential.user
+            .updateProfile({ displayName: displayName })
+            .then(async () => {
+              // TODO start a user chat session and log the user in
+              navigation.goBack();
+            });
+        });
+    } catch (e) {
+      console.log(e);
+      setSuccessful(false);
+    }
+
+    setLoading(false);
+  };
   if (loading) {
     return <Loading />;
   }

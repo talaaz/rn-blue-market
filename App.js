@@ -1,11 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import AppLoading from "expo-app-loading";
 
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import { AuthProvider } from "./navigation/AuthProvider";
 
 import productsReducer from "./store/reducers/products";
 import basketReducer from "./store/reducers/basket";
@@ -34,7 +33,9 @@ export default function App() {
     return (
       <AppLoading
         startAsync={fetchFonts}
-        onFinish={() => setFontLoaded(true)}
+        onFinish={() => {
+          setFontLoaded(true);
+        }}
         onError={(err) => console.log(err)}
       />
     );
@@ -42,9 +43,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <AuthProvider>
-        <ShoppingNavigator />
-      </AuthProvider>
+      <ShoppingNavigator />
     </Provider>
   );
 }

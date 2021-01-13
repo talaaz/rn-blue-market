@@ -59,7 +59,9 @@ const UserProfileNavigator = createStackNavigator(
 
 const SignInNavigator = createStackNavigator(
   {
-    SignIn: SignInScreen,
+    SignIn: {
+      screen: SignInScreen,
+    },
     SignUp: {
       screen: SignUpScreen,
     },
@@ -76,7 +78,9 @@ const MainNavigator = createDrawerNavigator(
     },
     Filters: FiltersNavigator,
     User: UserProfileNavigator,
-    SignIn: SignInNavigator,
+    SignIn: {
+      screen: SignInNavigator,
+    },
   },
   {
     contentOptions: {
