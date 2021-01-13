@@ -3,10 +3,11 @@ import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import AppLoading from "expo-app-loading";
 
-import { createStore, combineReducers } from "redux";
-import { Provider } from "react-redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { Provider } from 'react-redux'
+import ReduxThunk from 'redux-thunk';
+import productsReducer from './store/reducers/products'
 
-import productsReducer from "./store/reducers/products";
 import basketReducer from "./store/reducers/basket";
 import ShoppingNavigator from "./navigation/ShoppingNavigator";
 
@@ -17,7 +18,7 @@ const rootReducer = combineReducers({
   basket: basketReducer,
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
   return Font.loadAsync({
