@@ -8,15 +8,37 @@ import { Title, Text } from "react-native-paper";
 import FormButton from "../components/FormButton";
 import FormInput from "../components/FormInput";
 import Loading from "../components/Loading";
+import { firebase } from "../firebase";
 
-
-import { AuthContext } from "../navigation/AuthProvider";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderButton from "../components/HeaderButton";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const { login, loading } = useContext(AuthContext);
+  login = async (email, password) => {
+    setLoading(true);
+
+    //TODO Firebase Login check
+    await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        // Signed in
+        // ...
+        console.log("Signed in");
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(error);
+      });
+
+    setLoading(false);
+  };
 
   if (loading) {
     return <Loading />;
@@ -48,12 +70,28 @@ export default function LoginScreen({ navigation }) {
         modeValue="text"
         uppercase={false}
         labelStyle={styles.navButtonText}
-        onPress={() => navigation.navigate("Signup")}
+        onPress={() => navigation.navigate("SignUp")}
       />
     </View>
   );
 }
 
+LoginScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: "Blue Market",
+    headerLeft: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
+};
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f5f5f5",
