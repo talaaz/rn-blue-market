@@ -3,7 +3,7 @@ https://www.chatkitty.com/blog/posts/building-a-chat-app-with-react-native-and-f
 */
 import React, { useState, useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import { Title, Text } from "react-native-paper";
+import { Title, Text, Snackbar } from "react-native-paper";
 
 import FormButton from "../components/FormButton";
 import FormInput from "../components/FormInput";
@@ -18,7 +18,12 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  login = async (email, password) => {
+  const [visible, setVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const onDismissSnackBar = () => setVisible(false);
+
+  const login = async (email, password) => {
     setLoading(true);
 
     //TODO Firebase Login check
@@ -32,8 +37,8 @@ export default function LoginScreen({ navigation }) {
         navigation.navigate("Home");
       })
       .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        setVisible(true);
+        setErrorMessage(error.message);
         console.log(error);
       });
 
@@ -72,6 +77,18 @@ export default function LoginScreen({ navigation }) {
         labelStyle={styles.navButtonText}
         onPress={() => navigation.navigate("SignUp")}
       />
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "Undo",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {errorMessage}
+      </Snackbar>
     </View>
   );
 }

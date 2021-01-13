@@ -1,4 +1,3 @@
-
 import React, { useContext, useReducer, useState, useEffect } from "react";
 
 import { Title } from "react-native-paper";
@@ -8,10 +7,17 @@ import HeaderButton from "../components/HeaderButton";
 import { useSelector, useDispatch } from "react-redux";
 import * as basketActions from "../store/actions/basket";
 
-import * as productActions from "../store/actions/products"
+import * as productActions from "../store/actions/products";
 import { firebase } from "../firebase";
 
-import {ScrollView, Text,Image, StyleSheet,View ,FlatList} from 'react-native';
+import {
+  ScrollView,
+  Text,
+  Image,
+  StyleSheet,
+  View,
+  FlatList,
+} from "react-native";
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
@@ -20,13 +26,10 @@ const ProductsScreen = (props) => {
 
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in.
-
-
 
         setUsername(user.displayName);
 
@@ -35,14 +38,13 @@ const ProductsScreen = (props) => {
       } else {
         // No user is signed in.
       }
+      setUser(user);
     });
   });
 
-    useEffect(() => {
-      dispatch(productActions.fetchProducts());
-    },  [dispatch]);
-
-
+  useEffect(() => {
+    dispatch(productActions.fetchProducts());
+  }, [dispatch]);
 
   return (
     <View style={styles.list}>

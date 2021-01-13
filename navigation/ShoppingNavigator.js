@@ -78,7 +78,7 @@ const MainNavigator = createDrawerNavigator(
     },
     Filters: FiltersNavigator,
     User: UserProfileNavigator,
-    SignIn: {
+    "Sign In": {
       screen: SignInNavigator,
     },
   },
