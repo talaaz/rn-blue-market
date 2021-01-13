@@ -1,6 +1,6 @@
 
 import React, { useContext, useReducer, useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+
 import { Title } from "react-native-paper";
 import ProductItem from "../components/ProductItem";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -8,11 +8,20 @@ import HeaderButton from "../components/HeaderButton";
 import { useSelector, useDispatch } from "react-redux";
 import * as basketActions from "../store/actions/basket";
 
+
 import { firebase } from "../firebase";
+
+import * as productActions from "../store/actions/products"
+import { firebase } from "../firebase";
+
+
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
+  const products = useSelector((state) => state.products.availableProducts);
+
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -21,7 +30,9 @@ const ProductsScreen = (props) => {
         // User is signed in.
 
 
+
         setUsername(user.displayName);
+
         setUser(user);
         console.log(username);
       } else {
@@ -30,9 +41,11 @@ const ProductsScreen = (props) => {
     });
   });
 
-  const products = useSelector((state) => state.products.availableProducts);
+    useEffect(() => {
+      dispatch(productActions.fetchProducts());
+    },  [dispatch]);
 
-  const dispatch = useDispatch();
+
 
   return (
     <View style={styles.list}>
