@@ -1,21 +1,29 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { IconButton, Title, Text } from "react-native-paper";
+import { IconButton, Title, Text, Avatar, Snackbar } from "react-native-paper";
 
 import FormButton from "../components/FormButton";
 import FormInput from "../components/FormInput";
 import Loading from "../components/Loading";
 
 import { firebase } from "../firebase";
+const defaultPic = require("../assets/default_profile_pic.jpg");
 
 export default function SignupScreen({ navigation }) {
-  const [displayName, setDisplayName] = useState("");
+  const [profilePic, setProfilePic] = useState(defaultPic);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [successful, setSuccessful] = useState(false);
 
-  register = async (displayName, email, password) => {
+  const [visible, setVisible] = useState(false);
+  const [errorCode, setErrorCode] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const onDismissSnackBar = () => setVisible(false);
+
+  const register = async (firstName, lastName, email, password) => {
     setLoading(true);
 
     try {
@@ -24,31 +32,41 @@ export default function SignupScreen({ navigation }) {
         .createUserWithEmailAndPassword(email, password)
         .then((credential) => {
           credential.user
-            .updateProfile({ displayName: displayName })
+            .updateProfile({ firstName: firstName, lastName: lastName })
             .then(async () => {
-              // TODO start a user chat session and log the user in
+              // Go back to log in screen after succesfully created an user.
               navigation.goBack();
             });
         });
     } catch (e) {
+      setVisible(true);
+      setErrorCode(e.code);
+      setErrorMessage(e.message);
       console.log(e);
-      setSuccessful(false);
     }
 
     setLoading(false);
   };
+
   if (loading) {
     return <Loading />;
   }
 
   return (
     <View style={styles.container}>
+      <Avatar.Image size={100} source={profilePic}></Avatar.Image>
       <Title style={styles.titleText}>Let's get started!</Title>
       <FormInput
-        labelName="Display Name"
-        value={displayName}
+        labelName="Firstname"
+        value={firstName}
         autoCapitalize="none"
-        onChangeText={(userDisplayName) => setDisplayName(userDisplayName)}
+        onChangeText={(userFirstName) => setFirstName(userFirstName)}
+      />
+      <FormInput
+        labelName="Lastname"
+        value={lastName}
+        autoCapitalize="none"
+        onChangeText={(userLastName) => setLastName(userLastName)}
       />
       <FormInput
         labelName="Email"
@@ -66,7 +84,7 @@ export default function SignupScreen({ navigation }) {
         title="Signup"
         modeValue="contained"
         labelStyle={styles.loginButtonLabel}
-        onPress={() => register(displayName, email, password)}
+        onPress={() => register(firstName, lastName, email, password)}
       />
       <IconButton
         icon="keyboard-backspace"
@@ -75,6 +93,19 @@ export default function SignupScreen({ navigation }) {
         color="#5b3a70"
         onPress={() => navigation.goBack()}
       />
+
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "Undo",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {errorMessage}
+      </Snackbar>
     </View>
   );
 }
@@ -85,6 +116,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  image: {
+    flex: 1,
+    height: undefined,
+    width: undefined,
   },
   titleText: {
     fontSize: 24,

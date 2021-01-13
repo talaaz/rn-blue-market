@@ -11,19 +11,18 @@ import { firebase } from "../firebase";
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("Anonymous");
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in.
-
         setUsername(user.displayName);
-        setUser(user);
         console.log(username);
       } else {
         // No user is signed in.
       }
+      setUser(user);
     });
   });
 
