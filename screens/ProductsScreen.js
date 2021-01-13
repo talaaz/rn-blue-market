@@ -8,13 +8,10 @@ import HeaderButton from "../components/HeaderButton";
 import { useSelector, useDispatch } from "react-redux";
 import * as basketActions from "../store/actions/basket";
 
-
-import { firebase } from "../firebase";
-
 import * as productActions from "../store/actions/products"
 import { firebase } from "../firebase";
 
-
+import {ScrollView, Text,Image, StyleSheet,View ,FlatList} from 'react-native';
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
