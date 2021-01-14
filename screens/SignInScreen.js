@@ -81,7 +81,7 @@ export default function LoginScreen({ navigation }) {
         visible={visible}
         onDismiss={onDismissSnackBar}
         action={{
-          label: "Undo",
+          label: "Dismiss",
           onPress: () => {
             // Do something
           },
