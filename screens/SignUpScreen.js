@@ -98,7 +98,7 @@ export default function SignupScreen({ navigation }) {
         visible={visible}
         onDismiss={onDismissSnackBar}
         action={{
-          label: "Undo",
+          label: "Dismiss",
           onPress: () => {
             // Do something
           },
