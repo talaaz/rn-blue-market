@@ -1,21 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState  } from "react";
+import { StyleSheet } from "react-native";
 import AppLoading from "expo-app-loading";
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk';
 import productsReducer from './store/reducers/products'
-
-import basketReducer from "./store/reducers/basket";
 import ShoppingNavigator from "./navigation/ShoppingNavigator";
-
+import cartReducer from './store/reducers/cart'
 //enableScreens();
 
 const rootReducer = combineReducers({
   products: productsReducer,
-  basket: basketReducer,
+  cart: cartReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

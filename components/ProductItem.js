@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet,ImageBackground, Button, Platform} from 'react-native';
+import {View, Text, StyleSheet,ImageBackground, Button} from 'react-native';
 import Colors from '../constants/Colors'
 
 const ProductItem = props => {
@@ -18,10 +18,12 @@ const ProductItem = props => {
 
 
                 <View style={{...styles.productRow,...styles.productDetail}}>
-                    <Button style={styles.button} title="add to basket" onPress={props.onAddToBasket}/>
+                <View style={styles.buttons}>
+                    <Button style={styles.button} color={Colors.primaryColor} borderRadius={6} title="add to basket" onPress={props.onAddToCart}/>
                     <Text>${props.price.toFixed(2)}</Text>
-                    <Button style={styles.button}  title="details" onPress={props.onViewDetail}/>
-                </View>
+                    <Button style={styles.button}  color={Colors.primaryColor} borderRadius={6} title="details" onPress={props.onViewDetail}/>
+                    </View>
+                 </View>
                 
             </View>
     )
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
         borderRadius:20,
         overflow:'hidden',
         width:'90%',
-        backgroundColor:'#f5f5f5',
+        backgroundColor:'white',
         shadowColor:'black',
         shadowOpacity: 0.26,
         shadowOffset: {width:0, height:2},
@@ -73,6 +75,8 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
+        flex: 1,
+
 
     },
     image:{
@@ -81,10 +85,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
 
     },
-    button:{
-        color :Platform.OS ==='android' && Platform.Version >=21? Colors.primaryColor :'white',
-    }
-
 })
 
 export default ProductItem;

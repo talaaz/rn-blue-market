@@ -1,19 +1,16 @@
-import React, { useContext, useReducer, useState, useEffect } from "react";
-
+import React, { useState, useEffect } from "react";
 import { Title } from "react-native-paper";
-import ProductItem from "../components/ProductItem";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
-import { useSelector, useDispatch } from "react-redux";
-import * as basketActions from "../store/actions/basket";
-
-import * as productActions from "../store/actions/products";
 import { firebase } from "../firebase";
+//Helper component
+import ProductItem from "../components/ProductItem";
+//REDUX 
+import { useSelector, useDispatch } from "react-redux";
+import * as productActions from "../store/actions/products";
+import * as cartActions from '../store/actions/cart'
 
 import {
-  ScrollView,
-  Text,
-  Image,
   StyleSheet,
   View,
   FlatList,
@@ -26,7 +23,7 @@ const ProductsScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {});
+
 
   useEffect(() => {
     dispatch(productActions.fetchProducts());
@@ -60,8 +57,9 @@ const ProductsScreen = (props) => {
                 productTitle: itemData.item.title,
               });
             }}
-            onAddToBasket={() => {
-              dispatch(basketActions.addToBasket(itemData.item));
+            onAddToCart={() => {
+              console.log(itemData.item)
+              dispatch(cartActions.addToCart(itemData.item))
             }}
           />
         )}
