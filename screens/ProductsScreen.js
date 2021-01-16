@@ -5,16 +5,12 @@ import HeaderButton from "../components/HeaderButton";
 import { firebase } from "../firebase";
 //Helper component
 import ProductItem from "../components/ProductItem";
-//REDUX 
+//REDUX
 import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../store/actions/products";
-import * as cartActions from '../store/actions/cart'
+import * as cartActions from "../store/actions/cart";
 
-import {
-  StyleSheet,
-  View,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
@@ -22,8 +18,6 @@ const ProductsScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
 
   const dispatch = useDispatch();
-
-
 
   useEffect(() => {
     dispatch(productActions.fetchProducts());
@@ -58,8 +52,9 @@ const ProductsScreen = (props) => {
               });
             }}
             onAddToCart={() => {
-              console.log(itemData.item)
-              dispatch(cartActions.addToCart(itemData.item))
+              console.log("product screen");
+              console.log(itemData.item);
+              dispatch(cartActions.addToCart(itemData.item));
             }}
           />
         )}
@@ -99,7 +94,6 @@ ProductsScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
