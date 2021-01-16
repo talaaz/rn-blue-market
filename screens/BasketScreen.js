@@ -33,7 +33,7 @@ const BasketScreen = (props) => {
         </Text>
 
         <Button
-          title="Proceed to Checkout"
+          title="Checkout"
           disabled={cartIems.length === 0}
           onPress={() => {
             props.navigation.navigate("Payment");

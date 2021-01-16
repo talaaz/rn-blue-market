@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     backgroundColor: "rgba(219,240,253,0.5)",
-    paddingVertical: 7,
+    paddingVertical: 6,
     paddingHorizontal: 12,
   },
   title: {

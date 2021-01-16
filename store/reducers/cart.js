@@ -34,13 +34,15 @@ export default (state = initialState, action) => {
       };
     case DELETE_FROM_CART:
       const deletedProduct = action.productId;
+
       let updateCartItems;
       if (state.items[deletedProduct].quantity > 1) {
         const updateCartItem = new CartItem(
           state.items[deletedProduct].quantity - 1,
-          productPrice,
-          productTitle,
-          state.items[deletedProduct].sum - productPrice
+          state.items[deletedProduct].productPrice,
+          state.items[deletedProduct].productTitle,
+          state.items[deletedProduct].sum -
+            state.items[deletedProduct].productPrice
         );
         updateCartItems = { ...state.items, [deletedProduct]: updateCartItem };
       } else {

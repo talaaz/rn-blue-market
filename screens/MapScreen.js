@@ -3,8 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
-import { useSelector } from "react-redux";
-import * as productActions from "../store/actions/products";
 
 const MapScreen = (props) => {
   const CondLat = props.navigation.getParam("CondLat");
