@@ -45,7 +45,11 @@ const ProductDetailsScreen = (props) => {
           onPress={() => {
             console.log("detail screen ");
             console.log(selectedProducts);
-            dispatch(cartActions.addToCart(selectedProducts));
+            if (typeof selectedProducts !== null) {
+              dispatch(cartActions.addToCart(selectedProducts));
+            } else {
+              console.log("error ya tala");
+            }
           }}
         />
       </View>

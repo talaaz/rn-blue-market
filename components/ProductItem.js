@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
     height: "85%",
   },
   titleContainer: {
-    backgroundColor: "rgba(219,240,253,0.5)",
-    paddingVertical: 6,
+    backgroundColor: "rgba(100, 60, 164,0.5)",
+    paddingVertical: 6.9,
     paddingHorizontal: 12,
   },
   title: {

@@ -33,6 +33,7 @@ const BasketScreen = (props) => {
         </Text>
 
         <Button
+          color={Colors.primaryColor}
           title="Checkout"
           disabled={cartIems.length === 0}
           onPress={() => {

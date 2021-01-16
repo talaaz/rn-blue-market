@@ -15,7 +15,7 @@ import { StyleSheet, View, FlatList } from "react-native";
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
-  const products = useSelector((state) => state.products.availableProducts);
+  const productss = useSelector((state) => state.products.availableProducts);
 
   const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const ProductsScreen = (props) => {
     <View style={styles.list}>
       <Title> {"Welcome " + username + "!"}</Title>
       <FlatList
-        data={products}
+        data={productss}
         keyExtractor={(item) => item.id}
         renderItem={(itemData) => (
           <ProductItem
