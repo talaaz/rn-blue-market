@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.2",
+    "@mapbox/polyline": "^1.1.1",
     "@react-native-firebase/firestore": "^10.4.1",
     "expo": "~40.0.0",
     "expo-app-loading": "^1.0.1",

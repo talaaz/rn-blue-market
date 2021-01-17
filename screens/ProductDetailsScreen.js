@@ -38,7 +38,7 @@ const ProductDetailsScreen = (props) => {
         <Text>{selectedProducts.description}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <Text style={styles.price}>{selectedProducts.price}</Text>
+        <Text style={styles.price}>{selectedProducts.price} Kr.</Text>
         <Button
           title="Add to basket"
           color={Colors.primaryColor}

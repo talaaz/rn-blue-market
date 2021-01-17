@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
+import Polyline from "@mapbox/polyline";
 
 const MapScreen = (props) => {
   const CondLat = props.navigation.getParam("CondLat");
@@ -66,6 +67,7 @@ const MapScreen = (props) => {
         return error;
       }
     }
+    getDirections();
     console.log("getDirections 1func");
   }, [coords]);
 
