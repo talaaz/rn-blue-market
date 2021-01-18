@@ -26,10 +26,7 @@ const ProductsScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {});
-
   useEffect(() => {
-    dispatch(productActions.fetchProducts());
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in.
@@ -38,9 +35,15 @@ const ProductsScreen = (props) => {
         console.log(username);
       } else {
         // No user is signed in.
+
+        console.log("Not signed in");
       }
       setUser(user);
     });
+  });
+
+  useEffect(() => {
+    dispatch(productActions.fetchProducts());
   }, [dispatch]);
 
   return (

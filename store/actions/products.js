@@ -5,11 +5,8 @@ require("firebase/firestore");
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 
 export const fetchProducts = () => {
-  console.log("j");
-
   return async (dispatch) => {
     // any async code you want!
-    console.log("jjkj");
     let products = [];
     //first get the collection with the wanted documents.
     await firebase
@@ -45,8 +42,6 @@ export const fetchProducts = () => {
       );
     }
     */
-    console.log("wdji");
-    console.log(products);
     dispatch({ type: FETCH_PRODUCTS, products: products });
   };
 };

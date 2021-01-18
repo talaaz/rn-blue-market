@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Button, Snackbar } from "react-native-paper";
+import { Title, Avatar } from "react-native-paper";
+import { firebase } from "../firebase";
 
 const UserProfileScreen = (props) => {
-  const [visible, setVisible] = React.useState(false);
+  const [signed, setSigned] = useState(false);
+  const [profileURL, setProfileURL] = useState("");
+  const [username, setUsername] = useState("");
 
-  const onToggleSnackBar = () => setVisible(!visible);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        setSigned(true);
+        setProfileURL(user.photoURL);
+        setUsername(user.displayName);
 
-  const onDismissSnackBar = () => setVisible(false);
-
+        console.log("Signed in");
+      } else {
+        // No user is signed in.
+        setSigned(false);
+        setUsername();
+        console.log("Not signed in");
+      }
+    });
+  });
   return (
     <View style={styles.container}>
-      <Text>UserProfileScreen</Text>
-      <Button onPress={onToggleSnackBar}>{visible ? "Hide" : "Show"}</Button>
+      <Title>{signed ? `Welcome ${username}` : "Not signed in"}</Title>
+      <Avatar.Image size={100} source={{ uri: profileURL }}></Avatar.Image>
     </View>
   );
 };
