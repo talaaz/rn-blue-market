@@ -1,16 +1,22 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View, Button } from "react-native";
 import Colors from "../constants/Colors";
 import FormInput from "../components/FormInput";
 import CreditCardDisplay from "react-native-credit-card-display";
 import { ScrollView } from "react-native-gesture-handler";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
+import { useDispatch } from "react-redux";
+import * as cartActions from "../store/actions/cart";
 
 const PaymentScreen = (props) => {
   const [fullName, setFullName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cvcNumber, setCvcNumber] = useState("");
+  const cartItems = props.navigation.getParam("cartItems");
+  const totalAmount = props.navigation.getParam("totalAmount");
+
+  const dispatch = useDispatch();
 
   return (
     <View>
@@ -87,6 +93,17 @@ const PaymentScreen = (props) => {
           expiration="04/11"
           name={fullName}
         />
+        <Button
+          color={Colors.primaryColor}
+          borderRadius={6}
+          margin={10}
+          padding={20}
+          width={40}
+          title={"confirm"}
+          onPress={() => {
+            dispatch(cartActions.resetCart(cartItems, totalAmount));
+          }}
+        />
       </ScrollView>
     </View>
   );
@@ -99,11 +116,11 @@ PaymentScreen.navigationOptions = (navData) => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="done"
-          iconName="ios-checkmark"
+          iconName="ios-home"
           onPress={() => {
-            Alert.alert("Thank you!", "You order is submitted", [
-              { text: "Np!", style: "cancel" },
-            ]);
+            // delete resetCart
+
+            navData.navigation.navigate("Products");
           }}
         />
       </HeaderButtons>
