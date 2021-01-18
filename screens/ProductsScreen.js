@@ -1,28 +1,21 @@
-import React, { useContext, useReducer, useState, useEffect } from "react";
-
+import React, { useState, useEffect } from "react";
 import { Title } from "react-native-paper";
-import ProductItem from "../components/ProductItem";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
-import { useSelector, useDispatch } from "react-redux";
-import * as basketActions from "../store/actions/basket";
-
-import * as productActions from "../store/actions/products";
 import { firebase } from "../firebase";
+//Helper component
+import ProductItem from "../components/ProductItem";
+//REDUX
+import { useSelector, useDispatch } from "react-redux";
+import * as productActions from "../store/actions/products";
+import * as cartActions from "../store/actions/cart";
 
-import {
-  ScrollView,
-  Text,
-  Image,
-  StyleSheet,
-  View,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
-  const products = useSelector((state) => state.products.availableProducts);
+  const productss = useSelector((state) => state.products.availableProducts);
 
   const dispatch = useDispatch();
 
@@ -50,7 +43,7 @@ const ProductsScreen = (props) => {
     <View style={styles.list}>
       <Title> {"Welcome " + username + "!"}</Title>
       <FlatList
-        data={products}
+        data={productss}
         keyExtractor={(item) => item.id}
         renderItem={(itemData) => (
           <ProductItem
@@ -63,8 +56,10 @@ const ProductsScreen = (props) => {
                 productTitle: itemData.item.title,
               });
             }}
-            onAddToBasket={() => {
-              dispatch(basketActions.addToBasket(itemData.item));
+            onAddToCart={() => {
+              console.log("product screen");
+              console.log(itemData.item);
+              dispatch(cartActions.addToCart(itemData.item));
             }}
           />
         )}
@@ -104,7 +99,6 @@ ProductsScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },

@@ -3,7 +3,6 @@ import { Platform } from "react-native";
 
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import Colors from "../constants/Colors";
 
@@ -15,6 +14,8 @@ import UserProfileScreen from "../screens/UserProfileScreen";
 
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
+import PaymentScreen from "../screens/PaymentScreen";
+import MapScreen from "../screens/MapScreen";
 
 import { Ionicons } from "@expo/vector-icons";
 const defatultStackNavOptions = {
@@ -32,6 +33,12 @@ const ProductsNavigator = createStackNavigator(
     },
     Basket: {
       screen: BasketScreen,
+    },
+    Payment: {
+      screen: PaymentScreen,
+    },
+    Map: {
+      screen: MapScreen,
     },
   },
   {
