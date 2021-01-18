@@ -14,7 +14,6 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import * as cartActions from "../store/actions/cart";
 import Colors from "../constants/Colors";
-import MapScreen from "./MapScreen";
 
 const ProductDetailsScreen = (props) => {
   //get data out of store
