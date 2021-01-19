@@ -73,6 +73,17 @@ export default function SignupScreen({ navigation }) {
       return;
     }
     //Permission granted open camera.
+
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      setDefaultPic(false);
+      setProfilePic(result.uri);
+    }
   };
 
   const fetchPictureFromGallery = async () => {
@@ -85,7 +96,7 @@ export default function SignupScreen({ navigation }) {
     }
     //Permission granted open image-picker.
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
