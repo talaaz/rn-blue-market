@@ -75,7 +75,7 @@ export default function LoginScreen({ navigation }) {
         modeValue="text"
         uppercase={false}
         labelStyle={styles.navButtonText}
-        onPress={() => navigation.navigate("SignUp")}
+        onPress={() => navigation.navigate("Sign up")}
       />
       <Snackbar
         visible={visible}
