@@ -16,7 +16,38 @@ const PaymentScreen = (props) => {
   const cartItems = props.navigation.getParam("cartItems");
   const totalAmount = props.navigation.getParam("totalAmount");
 
+  const [isValidCartName, setValidCartName] = useState(false);
+  const [isValidCartCvc, setValidCartCvc] = useState(false);
+  const [isValidCartNumber, setValidCartNumber] = useState(false);
+
   const dispatch = useDispatch();
+
+  const nameHandler = (cartName) => {
+    if (cartName.lenght === 0) {
+      setValidCartName(false);
+    } else {
+      setValidCartName(true);
+    }
+    setFullName(cartName);
+  };
+
+  const cvcHandler = (cvcNum) => {
+    if (cvcNum.lenght < 3) {
+      setValidCartCvc(false);
+    } else {
+      setValidCartCvc(true);
+    }
+    setCvcNumber(cvcNum);
+  };
+
+  const numHandler = (cardNum) => {
+    if (cardNum.lenght < 16) {
+      setValidCartNumber(false);
+    } else {
+      setValidCartNumber(true);
+    }
+    setCardNumber(cardNum);
+  };
 
   return (
     <View>
@@ -31,26 +62,14 @@ const PaymentScreen = (props) => {
               underlineColor: Colors.primaryColor,
             },
           }}
-          label="Email"
-          mode="outlined"
-          onChangeText={(hehe) => setText(hehe)}
-        />
-
-        <FormInput
-          style={styles.textInput}
-          theme={{
-            colors: {
-              placeholder: Colors.primaryColor,
-              text: Colors.primaryColor,
-              primary: Colors.primaryColor,
-              underlineColor: Colors.primaryColor,
-            },
-          }}
+          autoCapitalize="characters"
           label="Name"
           value={fullName}
           mode="outlined"
-          onChangeText={(cartName) => setFullName(cartName)}
+          onChangeText={nameHandler}
         />
+        {!isValidCartName && <Text>Name is not valid!</Text>}
+
         <FormInput
           style={styles.textInput}
           theme={{
@@ -66,8 +85,10 @@ const PaymentScreen = (props) => {
           maxLength={16}
           value={cardNumber}
           mode="outlined"
-          onChangeText={(cardNum) => setCardNumber(cardNum)}
+          onChangeText={numHandler}
         />
+        {!isValidCartNumber && <Text>Number is 16 ints!</Text>}
+
         <FormInput
           style={styles.textInput}
           theme={{
@@ -83,27 +104,33 @@ const PaymentScreen = (props) => {
           maxLength={3}
           value={cvcNumber}
           mode="outlined"
-          onChangeText={(cvcNum) => setCvcNumber(cvcNum)}
+          onChangeText={cvcHandler}
         />
+        {!isValidCartCvc && <Text>Cvc is 3 ints!</Text>}
 
         <CreditCardDisplay
-          cardStyles={{ marginHorizontal: 40 }}
+          cardStyles={{ marginHorizontal: 50 }}
           number={cardNumber}
           cvc={cvcNumber}
           expiration="04/11"
           name={fullName}
         />
-        <Button
-          color={Colors.primaryColor}
-          borderRadius={6}
-          margin={10}
-          padding={20}
-          width={40}
-          title={"confirm"}
-          onPress={() => {
-            dispatch(cartActions.resetCart(cartItems, totalAmount));
-          }}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            color={Colors.primaryColor}
+            title={"confirm"}
+            onPress={() => {
+              if (!isValidCartName || !isValidCartCvc || !isValidCartNumber) {
+                Alert.alert("Invalid Input!", "Check your info...", [
+                  { text: "Ok!", style: "cancel" },
+                ]);
+                return;
+              } else {
+                dispatch(cartActions.resetCart(cartItems, totalAmount));
+              }
+            }}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -135,6 +162,11 @@ const styles = StyleSheet.create({
   textInput: {
     marginHorizontal: 10,
     padding: 10,
+  },
+  buttonContainer: {
+    justifyContent: "space-between",
+    margin: 20,
+    width: "90%",
   },
 });
 

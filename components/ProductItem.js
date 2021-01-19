@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   productItem: {
     height: 300, //dynamic with dimensions API
-    borderRadius: 20,
+    borderRadius: 3,
     overflow: "hidden",
     width: "90%",
     backgroundColor: "white",
