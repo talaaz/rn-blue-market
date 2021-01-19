@@ -16,6 +16,7 @@ import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import PaymentScreen from "../screens/PaymentScreen";
 import MapScreen from "../screens/MapScreen";
+import SidebarMenu from "./SidebarMenu";
 
 import { Ionicons } from "@expo/vector-icons";
 const defatultStackNavOptions = {
@@ -90,6 +91,7 @@ const MainNavigator = createDrawerNavigator(
     },
   },
   {
+    contentComponent: SidebarMenu,
     contentOptions: {
       activeTintColor: Colors.primaryColor,
     },
