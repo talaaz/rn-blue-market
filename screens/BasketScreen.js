@@ -30,7 +30,7 @@ const BasketScreen = (props) => {
       <View style={styles.itemContainer}>
         <Text style={styles.itemText}>
           Subtotal:
-          <Text style={styles.itemAmount}>{totalAmount}Kr.</Text>
+          <Text style={styles.itemAmount}>{totalAmount.toFixed(2)}Kr.</Text>
         </Text>
 
         <Button

@@ -57,7 +57,9 @@ export default (state = initialState, action) => {
       };
     case RESET_CART:
       return {
-        initialState,
+        ...state,
+        items: {},
+        totalAmount: 0,
       };
   }
 
