@@ -83,6 +83,39 @@ const UserProfileScreen = (props) => {
   const onDismissSnackBar = () => setVisible(false);
   const onDismissReauthentication = () => setReauthenticate(false);
 
+  const changeImage = async () => {
+    const user = firebase.auth().currentUser;
+    const childPath = `users/${user.uid}/profile/profilepic.jpg`;
+    console.log(childPath);
+
+    const response = await fetch(profileURL);
+    const blob = await response.blob();
+
+    const task = firebase.storage().ref().child(childPath).put(blob);
+
+    const taskProgress = (snapshot) => {
+      console.log(`transferred: ${snapshot.bytesTransferred}`);
+    };
+
+    const taskCompleted = () => {
+      task.snapshot.ref.getDownloadURL().then(async (url) => {
+        console.log(url);
+        await firebase.auth().currentUser.updateProfile({
+          photoURL: url,
+        });
+      });
+    };
+
+    const taskError = (snapshot) => {
+      setVisible(true);
+      setErrorCode(snapshot.error.code);
+      setErrorMessage(snapshot.error.message);
+      console.log(snapshot);
+    };
+
+    task.on("state_changed", taskProgress, taskError, taskCompleted);
+  };
+
   const takePictureWithCamera = async () => {
     console.log("Opening Camera");
     if (!camPermission || camPermission.status !== "granted") {
@@ -160,9 +193,7 @@ const UserProfileScreen = (props) => {
             style={styles.formButton}
             contentStyle={styles.formButtonContainer}
             labelStyle={styles.formButtonLabel}
-            onPress={() => {
-              console.log("Change Profile pic");
-            }}
+            onPress={() => changeImage()}
           >
             {"Change Picture"}
           </Button>
