@@ -1,15 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { StyleSheet, ScrollView, View } from "react-native";
-import { Avatar } from "react-native-paper";
+import { StyleSheet, ScrollView, View, Text } from "react-native";
+import { Avatar, Subheading } from "react-native-paper";
 import SafeAreaView from "react-native-safe-area-view";
 import { DrawerItems, DrawerView } from "react-navigation-drawer";
 
-const logo =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png";
+import { firebase } from "../firebase";
 
 const InternalMenu = (props) => {
-  const [pressed, setPressed] = useState(false);
+  const [signed, setSigned] = useState(false);
+  const [profileURL, setProfileURL] = useState("");
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        setSigned(true);
+        setProfileURL(user.photoURL);
+        setUsername(user.displayName);
+
+        console.log(profileURL);
+      } else {
+        // No user is signed in.
+        setSigned(false);
+        setUsername("");
+        setProfileURL("");
+        console.log("Not signed in");
+      }
+    });
+  });
+
   return (
     <SafeAreaView
       style={styles.container}
@@ -17,10 +38,14 @@ const InternalMenu = (props) => {
     >
       <View style={styles.imagecontainer}>
         <Avatar.Image
-          source={{ uri: logo }}
+          source={{ uri: profileURL }}
           size={100}
           style={styles.avatarimage}
         />
+        <Subheading>{username}</Subheading>
+        <Text style={styles.linkText} onPress={() => firebase.auth().signOut()}>
+          Sign Out
+        </Text>
       </View>
       <ScrollView style={styles.navigationcontainer}>
         <DrawerItems {...props} />
@@ -34,13 +59,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imagecontainer: {
-    height: 200,
-    backgroundColor: "black",
     justifyContent: "center",
     alignItems: "center",
   },
   navigationcontainer: {},
   avatarimage: {},
+
+  linkText: {
+    fontSize: 14,
+    color: "blue",
+    textDecorationLine: "underline",
+  },
 });
 
 export default SidebarMenu = (props) => <InternalMenu {...props} />;

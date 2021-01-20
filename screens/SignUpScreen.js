@@ -42,6 +42,7 @@ export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [doneUploading, setDoneUploading] = useState(false);
 
   const [visible, setVisible] = useState(false);
   const [errorCode, setErrorCode] = useState("");
@@ -123,14 +124,20 @@ export default function SignupScreen({ navigation }) {
     };
 
     const taskCompleted = () => {
-      task.snapshot.ref.getDownloadURL().then((url) => {
-        setProfilePic(url);
+      task.snapshot.ref.getDownloadURL().then(async (url) => {
         console.log(url);
+        await firebase.auth().currentUser.updateProfile({
+          photoURL: url,
+        });
+
+        firebase.auth().signOut();
+        setDoneUploading(true);
       });
     };
 
     const taskError = (snapshot) => {
       setVisible(true);
+      firebase.auth().signOut();
       setErrorCode(snapshot.error.code);
       setErrorMessage(snapshot.error.message);
       console.log(snapshot);
@@ -150,11 +157,9 @@ export default function SignupScreen({ navigation }) {
           credential.user
             .updateProfile({
               displayName: firstName + " " + lastName,
-              photoURL: profilePic,
             })
             .then(async () => {
               // Go back to log in screen after succesfully created an user.
-
               navigation.goBack();
             });
         });

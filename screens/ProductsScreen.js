@@ -28,6 +28,7 @@ const ProductsScreen = (props) => {
         console.log(username);
       } else {
         // No user is signed in.
+        setUsername("");
 
         console.log("Not signed in");
       }
