@@ -31,10 +31,6 @@ export default function SignupScreen({ navigation }) {
     getStoragePermission,
   ] = Permissions.usePermissions(Permissions.MEDIA_LIBRARY, { ask: true });
 
-  const [credential, setCredential] = useState(null);
-  const [localProfileURL, setLocalProfileURL] = useState("");
-  const [cloudProfileURL, setCloudProfileURL] = useState();
-
   const [defaultPic, setDefaultPic] = useState(true);
   const [profilePic, setProfilePic] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -42,7 +38,6 @@ export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [doneUploading, setDoneUploading] = useState(false);
 
   const [visible, setVisible] = useState(false);
   const [errorCode, setErrorCode] = useState("");

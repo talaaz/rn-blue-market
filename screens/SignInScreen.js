@@ -95,7 +95,7 @@ export default function LoginScreen({ navigation }) {
 
 LoginScreen.navigationOptions = (navData) => {
   return {
-    headerTitle: "Blue Market",
+    headerTitle: "Sign in",
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
