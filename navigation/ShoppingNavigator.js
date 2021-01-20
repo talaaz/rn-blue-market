@@ -11,7 +11,7 @@ import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import BasketScreen from "../screens/BasketScreen";
 import FiltersScreen from "../screens/FiltersScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
-
+import SellProductScreen from "../screens/SellProductScreen";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import PaymentScreen from "../screens/PaymentScreen";
@@ -55,6 +55,15 @@ const FiltersNavigator = createStackNavigator(
   }
 );
 
+const SellsNavigator = createStackNavigator(
+  {
+    Sell: SellProductScreen,
+  },
+  {
+    defaultNavigationOptions: defatultStackNavOptions,
+  }
+);
+
 const UserProfileNavigator = createStackNavigator(
   {
     UserProfile: UserProfileScreen,
@@ -83,6 +92,7 @@ const MainNavigator = createDrawerNavigator(
     Home: {
       screen: ProductsNavigator,
     },
+    Sell: SellsNavigator,
     Filters: FiltersNavigator,
     User: UserProfileNavigator,
     "Sign In": {

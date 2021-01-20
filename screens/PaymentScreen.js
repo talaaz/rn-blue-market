@@ -8,6 +8,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import { useDispatch } from "react-redux";
 import * as cartActions from "../store/actions/cart";
+import FormButton from "../components/FormButton";
 
 const PaymentScreen = (props) => {
   const [fullName, setFullName] = useState("");
@@ -54,56 +55,29 @@ const PaymentScreen = (props) => {
       <ScrollView>
         <FormInput
           style={styles.textInput}
-          theme={{
-            colors: {
-              placeholder: Colors.primaryColor,
-              text: Colors.primaryColor,
-              primary: Colors.primaryColor,
-              underlineColor: Colors.primaryColor,
-            },
-          }}
           autoCapitalize="characters"
           label="Name"
           value={fullName}
-          mode="outlined"
           onChangeText={nameHandler}
         />
         {!isValidCartName && <Text>Name is not valid!</Text>}
 
         <FormInput
           style={styles.textInput}
-          theme={{
-            colors: {
-              placeholder: Colors.primaryColor,
-              text: Colors.primaryColor,
-              primary: Colors.primaryColor,
-              underlineColor: Colors.primaryColor,
-            },
-          }}
           label="number"
           keyboardType="numeric"
           maxLength={16}
           value={cardNumber}
-          mode="outlined"
           onChangeText={numHandler}
         />
         {!isValidCartNumber && <Text>Number is 16 ints!</Text>}
 
         <FormInput
           style={styles.textInput}
-          theme={{
-            colors: {
-              placeholder: Colors.primaryColor,
-              text: Colors.primaryColor,
-              primary: Colors.primaryColor,
-              underlineColor: Colors.primaryColor,
-            },
-          }}
           label="cvc"
           keyboardType="numeric"
           maxLength={3}
           value={cvcNumber}
-          mode="outlined"
           onChangeText={cvcHandler}
         />
         {!isValidCartCvc && <Text>Cvc is 3 ints!</Text>}
@@ -116,8 +90,7 @@ const PaymentScreen = (props) => {
           name={fullName}
         />
         <View style={styles.buttonContainer}>
-          <Button
-            color={Colors.primaryColor}
+          <FormButton
             title={"confirm"}
             onPress={() => {
               if (!isValidCartName || !isValidCartCvc || !isValidCartNumber) {
