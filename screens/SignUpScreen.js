@@ -126,7 +126,6 @@ export default function SignupScreen({ navigation }) {
         });
 
         firebase.auth().signOut();
-        setDoneUploading(true);
       });
     };
 
