@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../store/actions/products";
 import * as cartActions from "../store/actions/cart";
 
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
@@ -34,7 +34,7 @@ const ProductsScreen = (props) => {
       }
       setUser(user);
     });
-  });
+  }, []);
 
   useEffect(() => {
     dispatch(productActions.fetchProducts());

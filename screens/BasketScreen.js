@@ -6,10 +6,11 @@ import { useSelector, useDispatch } from "react-redux";
 //GET HELPER COMPONENTS
 import BasketItem from "../components/BasketItem";
 import * as cartActions from "../store/actions/cart";
+
 const BasketScreen = (props) => {
   //get data out of store
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const cartIems = useSelector((state) => {
+  const cartItems = useSelector((state) => {
     const transformedCartItems = [];
     for (const key in state.cart.items) {
       transformedCartItems.push({
@@ -35,14 +36,17 @@ const BasketScreen = (props) => {
         <Button
           color={Colors.primaryColor}
           title="Checkout"
-          disabled={cartIems.length === 0}
+          disabled={cartItems.length === 0}
           onPress={() => {
-            props.navigation.navigate("Payment");
+            props.navigation.navigate("Payment", {
+              cartItems: cartItems,
+              totalAmount: totalAmount,
+            });
           }}
         />
       </View>
       <FlatList
-        data={cartIems}
+        data={cartItems}
         keyExtractor={(item) => item.productId}
         renderItem={(itemData) => (
           <BasketItem
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     elevation: 5,
-    borderRadius: 10,
+    borderRadius: 3,
     backgroundColor: "white",
   },
   itemText: {
