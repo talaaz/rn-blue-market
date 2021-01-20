@@ -14,15 +14,17 @@ const PaymentScreen = (props) => {
   const [fullName, setFullName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cvcNumber, setCvcNumber] = useState("");
-  const cartItems = props.navigation.getParam("cartItems");
-  const totalAmount = props.navigation.getParam("totalAmount");
-
+  //Validation
   const [isValidCartName, setValidCartName] = useState(false);
   const [isValidCartCvc, setValidCartCvc] = useState(false);
   const [isValidCartNumber, setValidCartNumber] = useState(false);
-
+  //Get items and total amount from basket
+  const cartItems = props.navigation.getParam("cartItems");
+  const totalAmount = props.navigation.getParam("totalAmount");
+  //Dispatch action
   const dispatch = useDispatch();
 
+  //Check name is not empty
   const nameHandler = (cartName) => {
     if (cartName.lenght === 0) {
       setValidCartName(false);
@@ -32,6 +34,7 @@ const PaymentScreen = (props) => {
     setFullName(cartName);
   };
 
+  //Check cvc of 3 numbers
   const cvcHandler = (cvcNum) => {
     if (cvcNum.lenght < 3) {
       setValidCartCvc(false);
@@ -41,6 +44,7 @@ const PaymentScreen = (props) => {
     setCvcNumber(cvcNum);
   };
 
+  //Check KontoNumber of 16 numbers
   const numHandler = (cardNum) => {
     if (cardNum.lenght < 16) {
       setValidCartNumber(false);
@@ -99,6 +103,7 @@ const PaymentScreen = (props) => {
                 ]);
                 return;
               } else {
+                //Reset cart items and sum
                 dispatch(cartActions.resetCart(cartItems, totalAmount));
               }
             }}
@@ -117,9 +122,8 @@ PaymentScreen.navigationOptions = (navData) => {
         <Item
           title="done"
           iconName="ios-home"
+          //Back to home
           onPress={() => {
-            // delete resetCart
-
             navData.navigation.navigate("Products");
           }}
         />
