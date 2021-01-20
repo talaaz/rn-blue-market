@@ -13,6 +13,7 @@ import {
   Avatar,
   Snackbar,
   Button,
+  Portal,
 } from "react-native-paper";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -22,8 +23,10 @@ import HeaderButton from "../components/HeaderButton";
 
 import FormInput from "../components/FormInput";
 import Loading from "../components/Loading";
+import ReauthenticationDialog from "../components/ReauthenticationDialog";
 
 import { firebase } from "../firebase";
+import { set } from "react-native-reanimated";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -46,12 +49,14 @@ const UserProfileScreen = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [reauthenticate, setReauthenticate] = useState(false);
 
   const [newProfileURL, setNewProfileURL] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newUsername, setNewUsername] = useState("");
   const [newEmail, setNewEmail] = useState("");
 
+  const [useProfilePic, setUseProfilePic] = useState(true);
   const [visible, setVisible] = useState(false);
   const [errorCode, setErrorCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,8 +65,8 @@ const UserProfileScreen = (props) => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in.
+        if (useProfilePic) setProfileURL(user.photoURL);
         setSigned(true);
-        setProfileURL(user.photoURL);
         setUsername(user.displayName);
         setEmail(user.email);
         setUser(user);
@@ -76,6 +81,7 @@ const UserProfileScreen = (props) => {
   });
 
   const onDismissSnackBar = () => setVisible(false);
+  const onDismissReauthentication = () => setReauthenticate(false);
 
   const takePictureWithCamera = async () => {
     console.log("Opening Camera");
@@ -93,6 +99,7 @@ const UserProfileScreen = (props) => {
       quality: 1,
     });
     if (!result.cancelled) {
+      setUseProfilePic(false);
       setNewProfileURL(result.uri);
       setProfileURL(result.uri);
     }
@@ -114,6 +121,7 @@ const UserProfileScreen = (props) => {
       quality: 1,
     });
     if (!result.cancelled) {
+      setUseProfilePic(false);
       setNewProfileURL(result.uri);
       setProfileURL(result.uri);
     }
@@ -133,7 +141,7 @@ const UserProfileScreen = (props) => {
       <ScrollView contentContainerStyle={styles.settingsContainer}>
         <View style={styles.imageContainer}>
           <Subheading>Update profile picture</Subheading>
-          <Avatar.Image size={100} source={{ uri: profileURL }}></Avatar.Image>
+          <Avatar.Image size={150} source={{ uri: profileURL }}></Avatar.Image>
 
           <Text onPress={() => takePictureWithCamera()} style={styles.linkText}>
             {"Take picture"}
@@ -143,6 +151,9 @@ const UserProfileScreen = (props) => {
             style={styles.linkText}
           >
             {"Get picture from Gallery"}
+          </Text>
+          <Text onPress={() => setUseProfilePic(true)} style={styles.linkText}>
+            {"Cancel"}
           </Text>
           <Button
             mode="outlined"
@@ -183,6 +194,8 @@ const UserProfileScreen = (props) => {
                 })
                 .catch(function (error) {
                   // An error happened.
+                  if (error.code === "auth/requires-recent-login")
+                    setReauthenticate(true);
                   setVisible(true);
                   setErrorMessage(error.message);
                 });
@@ -253,6 +266,8 @@ const UserProfileScreen = (props) => {
                 })
                 .catch(function (error) {
                   // An error happened.
+                  if (error.code === "auth/requires-recent-login")
+                    setReauthenticate(true);
                   setVisible(true);
                   setErrorMessage(error.message);
                 });
@@ -285,6 +300,10 @@ const UserProfileScreen = (props) => {
           </Button>
         </View>
       </ScrollView>
+      <ReauthenticationDialog
+        visible={reauthenticate}
+        dismiss={onDismissReauthentication}
+      ></ReauthenticationDialog>
       <Snackbar
         visible={visible}
         onDismiss={onDismissSnackBar}

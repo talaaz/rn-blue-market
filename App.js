@@ -1,19 +1,20 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState  } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import AppLoading from "expo-app-loading";
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { Provider } from 'react-redux'
-import ReduxThunk from 'redux-thunk';
-import productsReducer from './store/reducers/products'
+import { Provider } from "react-redux";
+import { Provider as PaperProvider } from "react-native-paper";
+import ReduxThunk from "redux-thunk";
+import productsReducer from "./store/reducers/products";
 import ShoppingNavigator from "./navigation/ShoppingNavigator";
-import cartReducer from './store/reducers/cart'
+import cartReducer from "./store/reducers/cart";
 //enableScreens();
 
 const rootReducer = combineReducers({
   products: productsReducer,
-  cart: cartReducer
+  cart: cartReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
@@ -42,7 +43,9 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <ShoppingNavigator />
+      <PaperProvider>
+        <ShoppingNavigator />
+      </PaperProvider>
     </Provider>
   );
 }
