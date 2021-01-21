@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { StyleSheet, ScrollView, View, Text } from "react-native";
-import { Avatar, Subheading } from "react-native-paper";
+import { Avatar, Subheading, Button } from "react-native-paper";
 import SafeAreaView from "react-native-safe-area-view";
 import { DrawerItems, DrawerView } from "react-navigation-drawer";
 
@@ -30,26 +30,42 @@ const InternalMenu = (props) => {
       }
     });
   });
+  const ImageContainer = () => {
+    if (signed)
+      return (
+        <View style={styles.imagecontainer}>
+          <Avatar.Image
+            source={{ uri: profileURL }}
+            size={100}
+            style={styles.avatarimage}
+          />
+          <Subheading style={styles.username}>{username}</Subheading>
+          <Text
+            style={styles.linkText}
+            onPress={() => firebase.auth().signOut()}
+          >
+            Sign out
+          </Text>
+        </View>
+      );
+    return <View></View>;
+  };
+
+  const NavigationContainer = (props) => {
+    return (
+      <ScrollView style={styles.navigationcontainer}>
+        <DrawerItems {...props} />
+      </ScrollView>
+    );
+  };
 
   return (
     <SafeAreaView
       style={styles.container}
       forceInset={{ top: "always", horizontal: "never" }}
     >
-      <View style={styles.imagecontainer}>
-        <Avatar.Image
-          source={{ uri: profileURL }}
-          size={100}
-          style={styles.avatarimage}
-        />
-        <Subheading>{username}</Subheading>
-        <Text style={styles.linkText} onPress={() => firebase.auth().signOut()}>
-          Sign Out
-        </Text>
-      </View>
-      <ScrollView style={styles.navigationcontainer}>
-        <DrawerItems {...props} />
-      </ScrollView>
+      <ImageContainer />
+      <NavigationContainer {...props} />
     </SafeAreaView>
   );
 };
@@ -57,6 +73,9 @@ const InternalMenu = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  username: {
+    fontWeight: "bold",
   },
   imagecontainer: {
     justifyContent: "center",
