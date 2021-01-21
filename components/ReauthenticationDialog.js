@@ -8,36 +8,35 @@ import {
   Dialog,
   Button,
   Paragraph,
+  Caption,
 } from "react-native-paper";
 import FormInput from "../components/FormInput";
 
 export default ReauthenticationDialog = ({ dismiss, ...rest }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const login = async (email, password) => {
     //TODO Firebase Login check
-
+    let user = firebase.auth().currentUser;
+    let credential = firebase.auth.EmailAuthProvider.credential(
+      email,
+      password
+    );
     // Prompt the user to re-provide their sign-in credentials
-    await firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(({ user, credential }) => {
-        // Signed in
-        // ...
-        user
-          .reauthenticateWithCredential(credential)
-          .then(function () {
-            // User re-authenticated.
-            console.log("Re-authentication successful");
-          })
-          .catch(function (error) {
-            // An error happened.
-            console.log(error);
-          });
+
+    user
+      .reauthenticateWithCredential(credential)
+      .then(() => {
+        // User re-authenticated.
+        console.log("Re-authentication successful");
+        dismiss();
       })
-      .catch((error) => {
+      .catch(function (error) {
+        // An error happened.
         console.log(error);
+        setErrorMessage(error.message);
       });
   };
   return (
@@ -48,6 +47,7 @@ export default ReauthenticationDialog = ({ dismiss, ...rest }) => {
           <Paragraph>
             Your account needs re-authentication in order to continue.
           </Paragraph>
+          <Caption>{errorMessage}</Caption>
           <FormInput
             labelName="Email"
             value={email}
