@@ -24,7 +24,7 @@ const ProductItem = (props) => {
             title="add to basket"
             onPress={props.onAddToCart}
           />
-          <Text>{props.price.toFixed(2)}Kr.</Text>
+          <Text>{props.price}Kr.</Text>
           <Button
             style={styles.button}
             color={Colors.primaryColor}

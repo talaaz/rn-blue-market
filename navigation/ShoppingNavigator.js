@@ -9,7 +9,6 @@ import Colors from "../constants/Colors";
 import ProductsScreen from "../screens/ProductsScreen";
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import BasketScreen from "../screens/BasketScreen";
-import FiltersScreen from "../screens/FiltersScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
 import SellProductScreen from "../screens/SellProductScreen";
 import SignInScreen from "../screens/SignInScreen";
@@ -40,15 +39,6 @@ const ProductsNavigator = createStackNavigator(
     Map: {
       screen: MapScreen,
     },
-  },
-  {
-    defaultNavigationOptions: defatultStackNavOptions,
-  }
-);
-
-const FiltersNavigator = createStackNavigator(
-  {
-    Filters: FiltersScreen,
   },
   {
     defaultNavigationOptions: defatultStackNavOptions,
@@ -93,7 +83,6 @@ const MainNavigator = createDrawerNavigator(
       screen: ProductsNavigator,
     },
     Sell: SellsNavigator,
-    Filters: FiltersNavigator,
     User: UserProfileNavigator,
     "Sign In": {
       screen: SignInNavigator,
