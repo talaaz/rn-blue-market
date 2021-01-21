@@ -6,9 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 //GET HELPER COMPONENTS
 import BasketItem from "../components/BasketItem";
 import * as cartActions from "../store/actions/cart";
+import FormButton from "../components/FormButton";
 
 const BasketScreen = (props) => {
-  //get data out of store
+  //get data out of redux store
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const cartItems = useSelector((state) => {
     const transformedCartItems = [];
@@ -23,8 +24,9 @@ const BasketScreen = (props) => {
     }
     return transformedCartItems;
   });
-
+  //dispatch actions
   const dispatch = useDispatch();
+
   return (
     <View style={styles.screen}>
       <View style={styles.itemContainer}>

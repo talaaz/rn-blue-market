@@ -13,7 +13,7 @@ const BasketItem = (props) => {
     <View style={styles.item}>
       <View style={styles.itemInfo}>
         <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.qty}>{props.quantity}</Text>
+        <Text style={styles.qty}>{props.quantity}x</Text>
       </View>
       <View style={styles.itemInfo}>
         <Text style={styles.amount}>{props.amount}</Text>
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 20,
+    margin: 8,
   },
   onRemove: {
     margin: 10,

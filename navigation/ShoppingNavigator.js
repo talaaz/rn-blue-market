@@ -9,9 +9,8 @@ import Colors from "../constants/Colors";
 import ProductsScreen from "../screens/ProductsScreen";
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import BasketScreen from "../screens/BasketScreen";
-import FiltersScreen from "../screens/FiltersScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
-
+import SellProductScreen from "../screens/SellProductScreen";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import PaymentScreen from "../screens/PaymentScreen";
@@ -47,9 +46,9 @@ const ProductsNavigator = createStackNavigator(
   }
 );
 
-const FiltersNavigator = createStackNavigator(
+const SellsNavigator = createStackNavigator(
   {
-    Filters: FiltersScreen,
+    Sell: SellProductScreen,
   },
   {
     defaultNavigationOptions: defatultStackNavOptions,
@@ -84,7 +83,7 @@ const MainNavigator = createDrawerNavigator(
     Home: {
       screen: ProductsNavigator,
     },
-    Filters: FiltersNavigator,
+    Sell: SellsNavigator,
     User: UserProfileNavigator,
     "Sign In": {
       screen: SignInNavigator,
