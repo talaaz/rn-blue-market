@@ -25,7 +25,7 @@ const ProductsScreen = (props) => {
     return parseFloat(b.price) - parseFloat(a.price);
   });
 
-  const [selectedValue, setSelectedValue] = useState(productssAscending);
+  const [selectedValue, setSelectedValue] = useState(productss);
 
   const dispatch = useDispatch();
 
@@ -53,15 +53,17 @@ const ProductsScreen = (props) => {
   return (
     <View style={styles.list}>
       {/*<Title> {"Welcome " + username + "!"}</Title>*/}
-      <Picker
-        selectedValue={selectedValue}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-      >
-        <Picker.Item label="Sort By" value={productss} />
-        <Picker.Item label="Low to High" value={productssAscending} />
-        <Picker.Item label="High to Low" value={productssDescending} />
-      </Picker>
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={selectedValue}
+          style={{ height: 50, width: 150 }}
+          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+        >
+          <Picker.Item key={"unselectable"} label="Sort By" value={productss} />
+          <Picker.Item label="Low to High" value={productssAscending} />
+          <Picker.Item label="High to Low" value={productssDescending} />
+        </Picker>
+      </View>
 
       <FlatList
         data={selectedValue}
@@ -121,6 +123,11 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
+  },
+  pickerContainer: {
+    height: "5%",
+    alignItems: "baseline",
     justifyContent: "center",
   },
 });

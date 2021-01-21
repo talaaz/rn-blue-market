@@ -1,11 +1,20 @@
 import React from "react";
-import { View, Text, StyleSheet, ImageBackground, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  Button,
+  Dimensions,
+} from "react-native";
 import Colors from "../constants/Colors";
+
+const { width, height } = Dimensions.get("screen");
 
 const ProductItem = (props) => {
   return (
     <View style={styles.productItem}>
-      <View style={{ ...styles.productRow, ...styles.productHeader }}>
+      <View style={{ ...styles.productRow }}>
         <ImageBackground source={{ uri: props.image }} style={styles.image}>
           <View style={styles.titleContainer}>
             <Text style={styles.title} numberOfLines={1}>
@@ -43,10 +52,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   productItem: {
-    height: 300, //dynamic with dimensions API
+    height: height / 2.3,
     borderRadius: 3,
     overflow: "hidden",
-    width: "90%",
+    width: width / 1.1,
     backgroundColor: "white",
     shadowColor: "black",
     shadowOpacity: 0.26,
@@ -58,18 +67,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: "space-between",
     alignItems: "center",
-    height: "10%",
   },
-  productHeader: {
-    height: "85%",
-  },
+
   titleContainer: {
     backgroundColor: "rgba(100, 60, 164,0.5)",
-    paddingVertical: 6.9,
-    paddingHorizontal: 12,
+    paddingVertical: 7.7,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     color: "black",
     textAlign: "center",
   },
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: "100%",
+    width: width,
     height: "80%",
     justifyContent: "flex-end",
   },
