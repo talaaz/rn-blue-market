@@ -49,7 +49,7 @@ const ProductsNavigator = createStackNavigator(
 
 const UserProductsNavigator = createStackNavigator(
   {
-    UserProducrs: UserProductsScreen,
+    UserProducts: UserProductsScreen,
     Sell: {
       screen: SellProductScreen,
     },
