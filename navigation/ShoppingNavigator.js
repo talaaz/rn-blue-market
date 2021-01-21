@@ -83,9 +83,9 @@ const MainNavigator = createDrawerNavigator(
     Home: {
       screen: ProductsNavigator,
     },
-    Sell: SellsNavigator,
+    MyProducts: SellsNavigator,
     User: UserProfileNavigator,
-    "Sign In": {
+    SignIn: {
       screen: SignInNavigator,
     },
   },
