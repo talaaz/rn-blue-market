@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import Polyline from "@mapbox/polyline";
+//import { Colors } from "react-native/Libraries/NewAppScreen";
+import Colors from "../constants/Colors";
 
 const MapScreen = (props) => {
   //Get lat and long of Product
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
+    backgroundColor: Colors.backgroundColor,
   },
   map: {
     position: "absolute",

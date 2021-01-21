@@ -134,7 +134,7 @@ PaymentScreen.navigationOptions = (navData) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: Colors.backgroundColor,
   },
   textInput: {
     marginHorizontal: 10,

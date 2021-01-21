@@ -27,6 +27,7 @@ import ReauthenticationDialog from "../components/ReauthenticationDialog";
 
 import { firebase } from "../firebase";
 import { set } from "react-native-reanimated";
+import Colors from "../constants/Colors";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -369,7 +370,7 @@ UserProfileScreen.navigationOptions = (navData) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: Colors.backgroundColor,
     flex: 1,
     justifyContent: "space-evenly",
     alignItems: "center",

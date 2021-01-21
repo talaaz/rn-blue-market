@@ -74,6 +74,7 @@ BasketScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
   screen: {
     margin: 20,
+    backgroundColor: Colors.backgroundColor,
   },
   itemContainer: {
     flexDirection: "row",

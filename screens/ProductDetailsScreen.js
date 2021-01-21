@@ -30,7 +30,7 @@ const ProductDetailsScreen = (props) => {
 
   //UI
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <Image source={{ uri: selectedProducts.imageUrl }} style={styles.image} />
 
       <View style={styles.descriptionContainer}>
@@ -89,6 +89,9 @@ ProductDetailsScreen.navigationOptions = (navData) => {
 
 //Style
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.backgroundColor,
+  },
   image: {
     width: "100%",
     height: 200,

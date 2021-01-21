@@ -17,6 +17,7 @@ import FormInput from "../components/FormInput";
 import Loading from "../components/Loading";
 
 import { firebase } from "../firebase";
+import Colors from "../constants/Colors";
 
 export default function SignupScreen({ navigation }) {
   const [
@@ -244,7 +245,7 @@ export default function SignupScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: Colors.backgroundColor,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

@@ -7,12 +7,17 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { Avatar, Subheading, Button } from "react-native-paper";
 import SafeAreaView from "react-native-safe-area-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Colors from "../constants/Colors";
 
 import { firebase } from "../firebase";
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+
 const SignedMenu = [
   { id: 0, name: "Home", icon: "home-outline", navScreen: "Home" },
   {
@@ -89,19 +94,11 @@ const InternalMenu = (props) => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => navigateToScreen(item.navScreen)}>
-            <View
-              style={{
-                height: 55,
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-start",
-              }}
-            >
+            <View style={styles.itemcontainer}>
               <MaterialCommunityIcons
                 name={item.icon}
-                size={35}
-                style={{ paddingLeft: 20, color: "#000" }}
+                size={30}
+                style={styles.icon}
               />
               <Text style={styles.menuText}>{item.name}</Text>
             </View>
@@ -123,24 +120,38 @@ const InternalMenu = (props) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.alternateColor,
+    height: screenHeight,
     flex: 1,
-  },
-  username: {
-    fontWeight: "bold",
+    flexDirection: "column",
+    justifyContent: "space-around",
   },
   imagecontainer: {
     justifyContent: "center",
     alignItems: "center",
   },
   navigationcontainer: {},
+  itemcontainer: {
+    height: 50,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    backgroundColor: Colors.primaryColor,
+  },
+  avatarimage: {},
+  icon: { paddingLeft: 20, color: Colors.alternateColor },
+  username: {
+    fontWeight: "bold",
+    color: Colors.primaryColor,
+  },
   menuText: {
-    fontSize: 20,
-    color: "#000",
+    fontSize: 16,
+    color: Colors.alternateColor,
+    fontWeight: "bold",
     textAlign: "center",
     marginLeft: 20,
   },
-  avatarimage: {},
-
   linkText: {
     fontSize: 14,
     color: "blue",

@@ -5,6 +5,7 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import Loading from "../components/Loading";
 import { firebase } from "../firebase";
+import Colors from "../constants/Colors";
 
 require("firebase/firestore");
 
@@ -77,7 +78,7 @@ const SellProductScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.backgroundColor,
     alignItems: "center",
     justifyContent: "center",
   },

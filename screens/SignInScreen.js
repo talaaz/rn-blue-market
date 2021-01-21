@@ -12,6 +12,7 @@ import { firebase } from "../firebase";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
+import Colors from "../constants/Colors";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -111,7 +112,7 @@ LoginScreen.navigationOptions = (navData) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: Colors.backgroundColor,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

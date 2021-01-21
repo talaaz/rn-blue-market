@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../store/actions/products";
 
 import { StyleSheet, View, FlatList } from "react-native";
+import Colors from "../constants/Colors";
 
 const UserProductsScreen = (props) => {
   const [user, setUser] = useState(null);
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: Colors.backgroundColor,
   },
 });
 

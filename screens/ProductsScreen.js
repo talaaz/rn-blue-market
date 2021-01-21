@@ -11,6 +11,7 @@ import * as productActions from "../store/actions/products";
 import * as cartActions from "../store/actions/cart";
 import { Picker } from "@react-native-picker/picker";
 
+import Colors from "../constants/Colors";
 import { StyleSheet, View, FlatList } from "react-native";
 
 const ProductsScreen = (props) => {
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: Colors.backgroundColor,
   },
 });
 
