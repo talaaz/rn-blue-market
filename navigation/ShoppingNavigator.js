@@ -16,6 +16,7 @@ import SignUpScreen from "../screens/SignUpScreen";
 import PaymentScreen from "../screens/PaymentScreen";
 import MapScreen from "../screens/MapScreen";
 import SidebarMenu from "./SidebarMenu";
+import UserProductsScreen from "../screens/UserProductsScreen";
 
 import { Ionicons } from "@expo/vector-icons";
 const defatultStackNavOptions = {
@@ -46,9 +47,12 @@ const ProductsNavigator = createStackNavigator(
   }
 );
 
-const SellsNavigator = createStackNavigator(
+const UserProductsNavigator = createStackNavigator(
   {
-    Sell: SellProductScreen,
+    UserProducrs: UserProductsScreen,
+    Sell: {
+      screen: SellProductScreen,
+    },
   },
   {
     defaultNavigationOptions: defatultStackNavOptions,
@@ -83,7 +87,7 @@ const MainNavigator = createDrawerNavigator(
     Home: {
       screen: ProductsNavigator,
     },
-    Sell: SellsNavigator,
+    ProductsA: UserProductsNavigator,
     User: UserProfileNavigator,
     "Sign In": {
       screen: SignInNavigator,

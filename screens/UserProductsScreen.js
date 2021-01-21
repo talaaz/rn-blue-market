@@ -8,24 +8,13 @@ import ProductItem from "../components/ProductItem";
 //REDUX
 import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../store/actions/products";
-import * as cartActions from "../store/actions/cart";
-import { Picker } from "@react-native-picker/picker";
 
 import { StyleSheet, View, FlatList } from "react-native";
 
-const ProductsScreen = (props) => {
+const UserProductsScreen = (props) => {
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
   const productss = useSelector((state) => state.products.availableProducts);
-
-  const productssAscending = productss.slice(0).sort((a, b) => {
-    return parseFloat(a.price) - parseFloat(b.price);
-  });
-  const productssDescending = productss.slice(0).sort((a, b) => {
-    return parseFloat(b.price) - parseFloat(a.price);
-  });
-
-  const [selectedValue, setSelectedValue] = useState(productssAscending);
 
   const dispatch = useDispatch();
 
@@ -34,11 +23,11 @@ const ProductsScreen = (props) => {
       if (user) {
         // User is signed in.
 
-        setUsername(user.displayName);
-        console.log(username);
+        setUserId(user.uid);
+        console.log(uid);
       } else {
         // No user is signed in.
-        setUsername("");
+        setUserId("");
 
         console.log("Not signed in");
       }
@@ -50,21 +39,16 @@ const ProductsScreen = (props) => {
     dispatch(productActions.fetchProducts());
   }, [dispatch]);
 
+  const productssById = productss.filter(
+    (prod) => prod.ownerId === userId // "lGKJj6DwSseN3Jzm3jjrnZx1uiO2"
+  );
+  console.log(productssById);
+
   return (
     <View style={styles.list}>
       {/*<Title> {"Welcome " + username + "!"}</Title>*/}
-      <Picker
-        selectedValue={selectedValue}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-      >
-        <Picker.Item label="Sort By" value={productss} />
-        <Picker.Item label="Low to High" value={productssAscending} />
-        <Picker.Item label="High to Low" value={productssDescending} />
-      </Picker>
-
       <FlatList
-        data={selectedValue}
+        data={productssById}
         keyExtractor={(item) => item.id}
         renderItem={(itemData) => (
           <ProductItem
@@ -89,9 +73,9 @@ const ProductsScreen = (props) => {
   );
 };
 
-ProductsScreen.navigationOptions = (navData) => {
+UserProductsScreen.navigationOptions = (navData) => {
   return {
-    headerTitle: "Blue Market",
+    headerTitle: "My Products",
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -106,10 +90,10 @@ ProductsScreen.navigationOptions = (navData) => {
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
-          title="Menu"
-          iconName="ios-cart"
+          title="AddItem"
+          iconName="ios-add"
           onPress={() => {
-            navData.navigation.navigate("Basket");
+            navData.navigation.navigate("Sell");
           }}
         />
       </HeaderButtons>
@@ -125,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductsScreen;
+export default UserProductsScreen;
