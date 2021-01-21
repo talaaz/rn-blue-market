@@ -13,7 +13,6 @@ export default function FormInput({ labelName, ...rest }) {
     <TextInput
       label={labelName}
       style={styles.input}
-      numberOfLines={1}
       mode="outlined"
       {...rest}
       theme={{
