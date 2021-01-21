@@ -4,13 +4,15 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import { firebase } from "../firebase";
 //Helper component
-import ProductItem from "../components/ProductItem";
+import UserProductItem from "../components/UserProductItem";
 //REDUX
 import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../store/actions/products";
 
 import { StyleSheet, View, FlatList } from "react-native";
 import Colors from "../constants/Colors";
+
+//await db.collection('product').doc('DC').delete();
 
 const UserProductsScreen = (props) => {
   const [user, setUser] = useState(null);
@@ -52,7 +54,7 @@ const UserProductsScreen = (props) => {
         data={productssById}
         keyExtractor={(item) => item.id}
         renderItem={(itemData) => (
-          <ProductItem
+          <UserProductItem
             title={itemData.item.title}
             price={itemData.item.price}
             image={itemData.item.imageUrl}
@@ -62,10 +64,13 @@ const UserProductsScreen = (props) => {
                 productTitle: itemData.item.title,
               });
             }}
-            onAddToCart={() => {
-              console.log("product screen");
-              console.log(itemData.item);
-              dispatch(cartActions.addToCart(itemData.item));
+            onDelete={() => {
+              //dispatch(cartActions.addToCart(itemData.item.id));
+              firebase
+                .firestore()
+                .collection("product")
+                .doc(itemData.item.id)
+                .delete();
             }}
           />
         )}
