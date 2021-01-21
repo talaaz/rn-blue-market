@@ -1,7 +1,7 @@
 import { FETCH_PRODUCTS } from "../actions/products";
 
 const initialState = {
-  availableProducts: {},
+  availableProducts: [],
 };
 
 export default (state = initialState, action) => {

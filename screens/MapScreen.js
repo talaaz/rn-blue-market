@@ -6,6 +6,7 @@ import MapView from "react-native-maps";
 import Polyline from "@mapbox/polyline";
 
 const MapScreen = (props) => {
+  //Get lat and long of Product
   const CondLat = props.navigation.getParam("CondLat");
   const CondLong = props.navigation.getParam("CondLong");
 
@@ -18,9 +19,8 @@ const MapScreen = (props) => {
   const [cordLatitude, setCordLatitude] = useState(CondLat);
   const [cordLongitude, setCordLongitude] = useState(CondLong);
 
+  //Get user location
   useEffect(() => {
-    console.log("Firsst  func");
-
     navigator.geolocation.getCurrentPosition((position) => {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
@@ -32,8 +32,8 @@ const MapScreen = (props) => {
     });
   }, []);
 
+  //Calculate the distance between user location and product location
   const mergeLot = () => {
-    console.log("merge lot func");
     if (latitude != null && longitude != null) {
       let concatLot = latitude + "," + longitude;
       useEffect(() => {
@@ -42,8 +42,8 @@ const MapScreen = (props) => {
     }
   };
 
+  //get directions using google api
   useEffect(() => {
-    console.log("getDirections func");
     async function getDirections(startLoc, destinationLoc) {
       try {
         let resp = await fetch(
@@ -72,6 +72,7 @@ const MapScreen = (props) => {
   }, [coords]);
 
   return (
+    //Shows map
     <MapView
       style={styles.map}
       initialRegion={{
@@ -82,6 +83,7 @@ const MapScreen = (props) => {
       }}
     >
       {!!latitude && !!longitude && (
+        //Shows user location marker
         <MapView.Marker
           coordinate={{
             latitude: latitude,
@@ -92,6 +94,7 @@ const MapScreen = (props) => {
       )}
 
       {!!cordLatitude && !!cordLongitude && (
+        //Shows product location marker
         <MapView.Marker
           coordinate={{
             latitude: cordLatitude,
@@ -102,6 +105,7 @@ const MapScreen = (props) => {
       )}
 
       {!!latitude && !!longitude && x == "true" && (
+        //Draws red line between locations
         <MapView.Polyline
           coordinates={coords}
           strokeWidth={2}
@@ -110,6 +114,7 @@ const MapScreen = (props) => {
       )}
 
       {!!latitude && !!longitude && x == "error" && (
+        //Draws red line between locations
         <MapView.Polyline
           coordinates={[
             {

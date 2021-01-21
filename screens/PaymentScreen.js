@@ -8,20 +8,23 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import { useDispatch } from "react-redux";
 import * as cartActions from "../store/actions/cart";
+import FormButton from "../components/FormButton";
 
 const PaymentScreen = (props) => {
   const [fullName, setFullName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cvcNumber, setCvcNumber] = useState("");
-  const cartItems = props.navigation.getParam("cartItems");
-  const totalAmount = props.navigation.getParam("totalAmount");
-
+  //Validation
   const [isValidCartName, setValidCartName] = useState(false);
   const [isValidCartCvc, setValidCartCvc] = useState(false);
   const [isValidCartNumber, setValidCartNumber] = useState(false);
-
+  //Get items and total amount from basket
+  const cartItems = props.navigation.getParam("cartItems");
+  const totalAmount = props.navigation.getParam("totalAmount");
+  //Dispatch action
   const dispatch = useDispatch();
 
+  //Check name is not empty
   const nameHandler = (cartName) => {
     if (cartName.lenght === 0) {
       setValidCartName(false);
@@ -31,6 +34,7 @@ const PaymentScreen = (props) => {
     setFullName(cartName);
   };
 
+  //Check cvc of 3 numbers
   const cvcHandler = (cvcNum) => {
     if (cvcNum.lenght < 3) {
       setValidCartCvc(false);
@@ -40,6 +44,7 @@ const PaymentScreen = (props) => {
     setCvcNumber(cvcNum);
   };
 
+  //Check KontoNumber of 16 numbers
   const numHandler = (cardNum) => {
     if (cardNum.lenght < 16) {
       setValidCartNumber(false);
@@ -54,56 +59,29 @@ const PaymentScreen = (props) => {
       <ScrollView>
         <FormInput
           style={styles.textInput}
-          theme={{
-            colors: {
-              placeholder: Colors.primaryColor,
-              text: Colors.primaryColor,
-              primary: Colors.primaryColor,
-              underlineColor: Colors.primaryColor,
-            },
-          }}
           autoCapitalize="characters"
           label="Name"
           value={fullName}
-          mode="outlined"
           onChangeText={nameHandler}
         />
         {!isValidCartName && <Text>Name is not valid!</Text>}
 
         <FormInput
           style={styles.textInput}
-          theme={{
-            colors: {
-              placeholder: Colors.primaryColor,
-              text: Colors.primaryColor,
-              primary: Colors.primaryColor,
-              underlineColor: Colors.primaryColor,
-            },
-          }}
           label="number"
           keyboardType="numeric"
           maxLength={16}
           value={cardNumber}
-          mode="outlined"
           onChangeText={numHandler}
         />
         {!isValidCartNumber && <Text>Number is 16 ints!</Text>}
 
         <FormInput
           style={styles.textInput}
-          theme={{
-            colors: {
-              placeholder: Colors.primaryColor,
-              text: Colors.primaryColor,
-              primary: Colors.primaryColor,
-              underlineColor: Colors.primaryColor,
-            },
-          }}
           label="cvc"
           keyboardType="numeric"
           maxLength={3}
           value={cvcNumber}
-          mode="outlined"
           onChangeText={cvcHandler}
         />
         {!isValidCartCvc && <Text>Cvc is 3 ints!</Text>}
@@ -116,8 +94,7 @@ const PaymentScreen = (props) => {
           name={fullName}
         />
         <View style={styles.buttonContainer}>
-          <Button
-            color={Colors.primaryColor}
+          <FormButton
             title={"confirm"}
             onPress={() => {
               if (!isValidCartName || !isValidCartCvc || !isValidCartNumber) {
@@ -126,6 +103,7 @@ const PaymentScreen = (props) => {
                 ]);
                 return;
               } else {
+                //Reset cart items and sum
                 dispatch(cartActions.resetCart(cartItems, totalAmount));
               }
             }}
@@ -144,9 +122,8 @@ PaymentScreen.navigationOptions = (navData) => {
         <Item
           title="done"
           iconName="ios-home"
+          //Back to home
           onPress={() => {
-            // delete resetCart
-
             navData.navigation.navigate("Products");
           }}
         />
