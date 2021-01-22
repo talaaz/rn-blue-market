@@ -21,8 +21,6 @@ const ProductItem = (props) => {
         <Card.Image source={{ uri: props.image }} />
         <Card.Divider />
 
-        <Text style={{ marginBottom: 10 }}>{props.description}</Text>
-
         <Card.Divider />
         <View style={styles.buttons}>
           <Button
