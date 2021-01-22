@@ -12,21 +12,17 @@ import * as cartActions from "../store/actions/cart";
 import { Picker } from "@react-native-picker/picker";
 
 import Colors from "../constants/Colors";
-import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
+
+import { StyleSheet, View, FlatList, RefreshControl } from "react-native";
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const productss = useSelector((state) => state.products.availableProducts);
 
-  const productssAscending = productss.slice(0).sort((a, b) => {
-    return parseFloat(a.price) - parseFloat(b.price);
-  });
-  const productssDescending = productss.slice(0).sort((a, b) => {
-    return parseFloat(b.price) - parseFloat(a.price);
-  });
+  const [selectedValue, setSelectedValue] = useState(null);
 
-  const [selectedValue, setSelectedValue] = useState(productss);
+  const [refreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -51,6 +47,24 @@ const ProductsScreen = (props) => {
     dispatch(productActions.fetchProducts());
   }, [dispatch]);
 
+  useEffect(() => {
+    setSelectedValue(productss);
+  }, [productss]);
+
+  const productssAscending = productss.slice(0).sort((a, b) => {
+    return parseFloat(a.price) - parseFloat(b.price);
+  });
+  const productssDescending = productss.slice(0).sort((a, b) => {
+    return parseFloat(b.price) - parseFloat(a.price);
+  });
+
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    dispatch(productActions.fetchProducts());
+
+    setRefreshing(false);
+  };
   return (
     <View style={styles.screen}>
       <View style={styles.itemContainer}>
@@ -68,6 +82,9 @@ const ProductsScreen = (props) => {
 
       <FlatList
         data={selectedValue}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         keyExtractor={(item) => item.id}
         renderItem={(itemData) => (
           <ProductItem

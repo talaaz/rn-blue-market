@@ -9,7 +9,7 @@ import UserProductItem from "../components/UserProductItem";
 import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../store/actions/products";
 
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, RefreshControl } from "react-native";
 import Colors from "../constants/Colors";
 
 //await db.collection('product').doc('DC').delete();
@@ -17,6 +17,7 @@ import Colors from "../constants/Colors";
 const UserProductsScreen = (props) => {
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   const productss = useSelector((state) => state.products.availableProducts);
 
   const dispatch = useDispatch();
@@ -45,13 +46,22 @@ const UserProductsScreen = (props) => {
   const productssById = productss.filter(
     (prod) => prod.ownerId === userId // "lGKJj6DwSseN3Jzm3jjrnZx1uiO2"
   );
-  console.log("productssById");
 
-  console.log(productssById);
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    dispatch(productActions.fetchProducts());
+
+    setRefreshing(false);
+  };
+
   return (
     <View>
       <FlatList
         data={productssById}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         keyExtractor={(item) => item.id}
         renderItem={(itemData) => (
           <UserProductItem
@@ -60,6 +70,19 @@ const UserProductsScreen = (props) => {
             image={itemData.item.imageUrl}
             description={itemData.item.description}
             onDelete={() => {
+              //dispatch(cartActions.addToCart(itemData.item.id));
+              //Delete product-folder from storage.
+
+              let storageRef = firebase.storage().ref();
+
+              //delete image.
+              storageRef
+                .child(`product/${itemData.item.id}/image.jpg`)
+                .delete();
+              //delete folder.
+              storageRef.child(`product/${itemData.item.id}`).delete();
+              //Delete product from firestore.
+
               firebase
                 .firestore()
                 .collection("product")
