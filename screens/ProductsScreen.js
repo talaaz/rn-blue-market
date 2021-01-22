@@ -12,7 +12,7 @@ import * as cartActions from "../store/actions/cart";
 import { Picker } from "@react-native-picker/picker";
 
 import Colors from "../constants/Colors";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
@@ -52,9 +52,9 @@ const ProductsScreen = (props) => {
   }, [dispatch]);
 
   return (
-    <View>
-      {/*<Title> {"Welcome " + username + "!"}</Title>*/}
-      <View style={styles.pickerContainer}>
+    <View style={styles.screen}>
+      <View style={styles.itemContainer}>
+        {/*<Title> {"Welcome " + username + "!"}</Title>*/}
         <Picker
           selectedValue={selectedValue}
           style={{ height: 50, width: 150 }}
@@ -121,16 +121,15 @@ ProductsScreen.navigationOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.backgroundColor,
+  screen: {
+    margin: 5,
   },
-  pickerContainer: {
-    height: "5%",
-    alignItems: "baseline",
-    justifyContent: "center",
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 5,
+    padding: 5,
   },
 });
 

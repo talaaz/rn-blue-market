@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import AppLoading from "expo-app-loading";
+import * as Font from "expo-font";
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";

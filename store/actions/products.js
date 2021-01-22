@@ -2,7 +2,6 @@ import { firebase } from "../../firebase";
 
 require("firebase/firestore");
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
-
 export const fetchProducts = () => {
   return async (dispatch) => {
     // any async code you want!

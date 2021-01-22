@@ -45,6 +45,8 @@ const UserProductsScreen = (props) => {
   const productssById = productss.filter(
     (prod) => prod.ownerId === userId // "lGKJj6DwSseN3Jzm3jjrnZx1uiO2"
   );
+  console.log("productssById");
+
   console.log(productssById);
   return (
     <View>
