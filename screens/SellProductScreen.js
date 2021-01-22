@@ -33,36 +33,6 @@ const SellProductScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const uploadImage = async (productRef) => {
-    const childPath = `product/${productRef.id}/image.jpg`;
-    console.log(childPath);
-
-    const response = await fetch(pictureURL);
-    const blob = await response.blob();
-
-    const task = firebase.storage().ref().child(childPath).put(blob);
-
-    const taskProgress = (snapshot) => {
-      console.log(`transferred: ${snapshot.bytesTransferred}`);
-    };
-
-    const taskCompleted = () => {
-      task.snapshot.ref.getDownloadURL().then(async (url) => {
-        console.log(url);
-        productRef.update({ imageUrl: url });
-      });
-    };
-
-    const taskError = (snapshot) => {
-      setVisible(true);
-      setErrorCode(snapshot.error.code);
-      setErrorMessage(snapshot.error.message);
-      console.log(snapshot);
-    };
-
-    task.on("state_changed", taskProgress, taskError, taskCompleted);
-  };
-
   const takePictureWithCamera = async () => {
     console.log("Opening Camera");
     if (!camPermission || camPermission.status !== "granted") {
@@ -100,14 +70,52 @@ const SellProductScreen = (props) => {
     }
   };
 
+  const uploadImage = async (productRef) => {
+    const childPath = `product/${productRef.id}/image.jpg`;
+    console.log(childPath);
+
+    const response = await fetch(pictureURL);
+    const blob = await response.blob();
+
+    const task = firebase.storage().ref().child(childPath).put(blob);
+
+    const taskProgress = (snapshot) => {
+      console.log(`transferred: ${snapshot.bytesTransferred}`);
+    };
+
+    const taskCompleted = () => {
+      task.snapshot.ref.getDownloadURL().then(async (url) => {
+        console.log(url);
+        productRef.update({ imageUrl: url }).then(() => {
+          props.navigation.goBack();
+          setLoading(false);
+        });
+      });
+    };
+
+    const taskError = (snapshot) => {
+      setVisible(true);
+      setErrorCode(snapshot.error.code);
+      setErrorMessage(snapshot.error.message);
+      console.log(snapshot);
+      setLoading(false);
+    };
+
+    task.on("state_changed", taskProgress, taskError, taskCompleted);
+  };
+
   const addItem = async (title, price, description) => {
     setLoading(true);
     let newprice = parseFloat(price);
     let uid = firebase.auth().currentUser.uid;
+
+    //console.log(position.coords);
     let data = {
       title: title,
       price: newprice,
       description: description,
+      lat: 0,
+      long: 0,
       ownerId: uid,
       imageUrl: "",
     };
@@ -118,6 +126,14 @@ const SellProductScreen = (props) => {
         .doc();
       const res = newProductRef.set(data).then(() => {
         uploadImage(newProductRef);
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            newProductRef.update({
+              long: position.coords.longitude,
+              lat: position.coords.latitude,
+            });
+          });
+        }
       });
     } catch (error) {
       //  setVisible(true);
@@ -125,8 +141,6 @@ const SellProductScreen = (props) => {
       // setErrorMessage(e.message);
       console.log(error);
     }
-
-    setLoading(false);
   };
 
   if (loading) {
