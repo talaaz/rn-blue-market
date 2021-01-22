@@ -65,7 +65,7 @@ const ProductsScreen = (props) => {
     setRefreshing(false);
   };
   return (
-    <View style={styles.list}>
+    <View>
       {/*<Title> {"Welcome " + username + "!"}</Title>*/}
       <View style={styles.pickerContainer}>
         <Picker

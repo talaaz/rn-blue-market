@@ -56,8 +56,7 @@ const UserProductsScreen = (props) => {
   };
 
   return (
-    <View style={styles.list}>
-      {/*<Title> {"Welcome " + username + "!"}</Title>*/}
+    <View>
       <FlatList
         data={productssById}
         refreshControl={
@@ -69,12 +68,7 @@ const UserProductsScreen = (props) => {
             title={itemData.item.title}
             price={itemData.item.price}
             image={itemData.item.imageUrl}
-            onViewDetail={() => {
-              props.navigation.navigate("ProductDetail", {
-                productId: itemData.item.id,
-                productTitle: itemData.item.title,
-              });
-            }}
+            description={itemData.item.description}
             onDelete={() => {
               //dispatch(cartActions.addToCart(itemData.item.id));
               //Delete product-folder from storage.
