@@ -8,23 +8,22 @@ import {
   Dimensions,
 } from "react-native";
 import Colors from "../constants/Colors";
+import { Card } from "react-native-elements";
 
 const { width, height } = Dimensions.get("screen");
 
 const ProductItem = (props) => {
   return (
-    <View style={styles.productItem}>
-      <View style={{ ...styles.productRow }}>
-        <ImageBackground source={{ uri: props.image }} style={styles.image}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title} numberOfLines={1}>
-              {props.title}
-            </Text>
-          </View>
-        </ImageBackground>
-      </View>
+    <View>
+      <Card>
+        <Card.Title numberOfLines={1}>{props.title}</Card.Title>
+        <Card.Divider />
+        <Card.Image source={{ uri: props.image }} />
+        <Card.Divider />
 
-      <View style={{ ...styles.productRow, ...styles.productDetail }}>
+        <Text style={{ marginBottom: 10 }}>{props.description}</Text>
+
+        <Card.Divider />
         <View style={styles.buttons}>
           <Button
             style={styles.button}
@@ -42,57 +41,17 @@ const ProductItem = (props) => {
             onPress={props.onViewDetail}
           />
         </View>
-      </View>
+      </Card>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  productRow: {
-    flexDirection: "row",
-  },
-  productItem: {
-    height: height / 2.3,
-    borderRadius: 3,
-    overflow: "hidden",
-    width: width / 1.1,
-    backgroundColor: "white",
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 5,
-    margin: 20,
-  },
-  productDetail: {
-    paddingHorizontal: 20,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-
-  titleContainer: {
-    backgroundColor: "rgba(100, 60, 164,0.5)",
-    paddingVertical: 7.7,
-  },
-  title: {
-    fontSize: 18,
-    color: "black",
-    textAlign: "center",
-  },
-  price: {
-    fontSize: 20,
-    color: "white",
-    textAlign: "center",
-  },
   buttons: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     flex: 1,
-  },
-  image: {
-    width: width,
-    height: "80%",
-    justifyContent: "flex-end",
   },
 });
 

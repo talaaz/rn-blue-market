@@ -52,7 +52,7 @@ const ProductsScreen = (props) => {
   }, [dispatch]);
 
   return (
-    <View style={styles.list}>
+    <View>
       {/*<Title> {"Welcome " + username + "!"}</Title>*/}
       <View style={styles.pickerContainer}>
         <Picker
