@@ -71,9 +71,9 @@ const ProductsScreen = (props) => {
     setRefreshing(false);
   };
   return (
-    <SafeAreaView>
-      {/*<Title> {"Welcome " + username + "!"}</Title>*/}
-      <View style={styles.pickerContainer}>
+    <View style={styles.screen}>
+      <View style={styles.itemContainer}>
+        {/*<Title> {"Welcome " + username + "!"}</Title>*/}
         <Picker
           selectedValue={selectedValue}
           style={{ height: 50, width: 150 }}
@@ -110,7 +110,7 @@ const ProductsScreen = (props) => {
           />
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -143,16 +143,15 @@ ProductsScreen.navigationOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.backgroundColor,
+  screen: {
+    margin: 5,
   },
-  pickerContainer: {
-    height: "5%",
-    alignItems: "baseline",
-    justifyContent: "center",
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 5,
+    padding: 5,
   },
 });
 
