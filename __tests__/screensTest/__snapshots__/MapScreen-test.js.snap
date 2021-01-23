@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MapScreen /> renders correctly 1`] = `
+<AIRMap
+  handlePanDrag={false}
+  initialRegion={
+    Object {
+      "latitude": 55.6786,
+      "latitudeDelta": 1,
+      "longitude": 12.5635,
+      "longitudeDelta": 1,
+    }
+  }
+  onChange={[Function]}
+  onLayout={[Function]}
+  onMapReady={[Function]}
+  onMarkerPress={[Function]}
+  region={null}
+  style={
+    Object {
+      "bottom": 0,
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+    }
+  }
+/>
+`;
