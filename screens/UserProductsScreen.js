@@ -9,7 +9,13 @@ import UserProductItem from "../components/UserProductItem";
 import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../store/actions/products";
 
-import { StyleSheet, View, FlatList, RefreshControl } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 import Colors from "../constants/Colors";
 
 //await db.collection('product').doc('DC').delete();
@@ -56,7 +62,7 @@ const UserProductsScreen = (props) => {
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <FlatList
         data={productssById}
         refreshControl={
@@ -88,11 +94,13 @@ const UserProductsScreen = (props) => {
                 .collection("product")
                 .doc(itemData.item.id)
                 .delete();
+
+              onRefresh();
             }}
           />
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

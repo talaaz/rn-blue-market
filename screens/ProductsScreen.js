@@ -12,7 +12,13 @@ import * as cartActions from "../store/actions/cart";
 import { Picker } from "@react-native-picker/picker";
 
 import Colors from "../constants/Colors";
-import { StyleSheet, View, FlatList, RefreshControl } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 
 const ProductsScreen = (props) => {
   const [user, setUser] = useState(null);
@@ -65,7 +71,7 @@ const ProductsScreen = (props) => {
     setRefreshing(false);
   };
   return (
-    <View>
+    <SafeAreaView>
       {/*<Title> {"Welcome " + username + "!"}</Title>*/}
       <View style={styles.pickerContainer}>
         <Picker
@@ -104,7 +110,7 @@ const ProductsScreen = (props) => {
           />
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
