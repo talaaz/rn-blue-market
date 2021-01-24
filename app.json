@@ -26,8 +26,8 @@
         "WRITE_EXTERNAL_STORAGE"
       ],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/wave.png",
+        "backgroundColor": "#643CA4"
       },
       "package": "host.exp.BlueMarket",
       "config": {
@@ -35,7 +35,6 @@
           "apiKey": "AIzaSyDpZN9XjHYXDGWED53LWp70pah4Izp87NI"
         }
       }
-
     },
     "web": {
       "favicon": "./assets/favicon.png"
