@@ -105,6 +105,7 @@ const PaymentScreen = (props) => {
               } else {
                 //Reset cart items and sum
                 dispatch(cartActions.resetCart(cartItems, totalAmount));
+                props.navigation.navigate("Products");
               }
             }}
           />

@@ -32,18 +32,6 @@ import Colors from "../constants/Colors";
 const { width, height } = Dimensions.get("screen");
 
 const UserProfileScreen = (props) => {
-  const [
-    camPermission,
-    askForCameraPermission,
-    getCameraPermission,
-  ] = Permissions.usePermissions(Permissions.CAMERA, { ask: true });
-
-  const [
-    storagePermission,
-    askForStoragePermission,
-    getStoragePermission,
-  ] = Permissions.usePermissions(Permissions.MEDIA_LIBRARY, { ask: true });
-
   const [user, setUser] = useState(null);
   const [signed, setSigned] = useState(false);
   const [profileURL, setProfileURL] = useState("");
@@ -61,7 +49,26 @@ const UserProfileScreen = (props) => {
   const [visible, setVisible] = useState(false);
   const [errorCode, setErrorCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [camPerm, setCamPerm] = useState("");
+  const [mediaPerm, setMediaPerm] = useState("");
 
+  useEffect(() => {
+    (async () => {
+      await ImagePicker.requestCameraPermissionsAsync().then(({ status }) => {
+        setCamPerm(status);
+      });
+
+      await ImagePicker.requestMediaLibraryPermissionsAsync().then(
+        ({ status }) => {
+          setMediaPerm(status);
+        }
+      );
+
+      console.log("Camera permission is : " + camPerm);
+
+      console.log("Media permission is : " + mediaPerm);
+    })();
+  });
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -119,7 +126,7 @@ const UserProfileScreen = (props) => {
 
   const takePictureWithCamera = async () => {
     console.log("Opening Camera");
-    if (!camPermission || camPermission.status !== "granted") {
+    if (camPerm !== "granted") {
       setVisible(true);
       setErrorMessage("Permission for accessing phone camera wasn't granted");
       return;
@@ -142,7 +149,7 @@ const UserProfileScreen = (props) => {
   const fetchPictureFromGallery = async () => {
     // Check media storage permissions. Send snackbar error if not given.
     console.log("Opening Gallery");
-    if (!storagePermission || storagePermission.status !== "granted") {
+    if (mediaPerm !== "granted") {
       setVisible(true);
       setErrorMessage("Permission for accessing phone storage wasn't granted");
       return;

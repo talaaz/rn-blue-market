@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import Polyline from "@mapbox/polyline";
+import * as Permissions from "expo-permissions";
+
+import * as Location from "expo-location";
 //import { Colors } from "react-native/Libraries/NewAppScreen";
 import Colors from "../constants/Colors";
 
@@ -20,59 +23,54 @@ const MapScreen = (props) => {
   const [x, setX] = useState("false");
   const [cordLatitude, setCordLatitude] = useState(CondLat);
   const [cordLongitude, setCordLongitude] = useState(CondLong);
-
   //Get user location
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-      setError(null);
-      mergeLot();
+    (async () => {
+      await Location.requestPermissionsAsync().then(async ({ status }) => {
+        if (status === "granted") {
+          let location = await Location.getCurrentPositionAsync({});
+          console.log(location);
+          setLatitude(location.coords.latitude);
+          setLongitude(location.coords.longitude);
 
-      (error) => setError(error.message),
-        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 };
-    });
+          setError(null);
+
+          mergeLot();
+        }
+      });
+    })();
   }, []);
 
   //Calculate the distance between user location and product location
   const mergeLot = () => {
     if (latitude != null && longitude != null) {
       let concatLot = latitude + "," + longitude;
-      useEffect(() => {
-        getDirections(concatLot, { cordLatitude, cordLongitude });
-      }, [concat]);
+      getDirections(concatLot, { cordLatitude, cordLongitude });
     }
   };
-
-  //get directions using google api
-  useEffect(() => {
-    async function getDirections(startLoc, destinationLoc) {
-      try {
-        let resp = await fetch(
-          `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}`
-        );
-        let respJson = await resp.json();
-        let points = Polyline.decode(
-          respJson.routes[0].overview_polyline.points
-        );
-        let coords = points.map((point, index) => {
-          return {
-            latitude: point[0],
-            longitude: point[1],
-          };
-        });
-        setCoords(coords);
-        setX("true");
-        return coords;
-      } catch (error) {
-        setX("error");
-        return error;
-      }
+  async function getDirections(startLoc, destinationLoc) {
+    try {
+      let resp = await fetch(
+        `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}`
+      );
+      let respJson = await resp.json();
+      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+      let coords = points.map((point, index) => {
+        return {
+          latitude: point[0],
+          longitude: point[1],
+        };
+      });
+      setCoords(coords);
+      setX("true");
+      return coords;
+    } catch (error) {
+      setX("error");
+      return error;
     }
-    getDirections();
-    console.log("getDirections 1func");
-  }, [coords]);
+  }
 
+  console.log(latitude);
   return (
     //Shows map
     <MapView

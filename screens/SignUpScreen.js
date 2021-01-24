@@ -7,7 +7,7 @@ C:/Users/Valde/Documents/LAPTOP-PLFGULU9/Documents/It-elektronik/5. Semester/Sel
 */
 
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, ScrollView, Image } from "react-native";
 import { IconButton, Title, Text, Avatar, Snackbar } from "react-native-paper";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -20,18 +20,6 @@ import { firebase } from "../firebase";
 import Colors from "../constants/Colors";
 
 export default function SignupScreen({ navigation }) {
-  const [
-    camPermission,
-    askForCameraPermission,
-    getCameraPermission,
-  ] = Permissions.usePermissions(Permissions.CAMERA, { ask: true });
-
-  const [
-    storagePermission,
-    askForStoragePermission,
-    getStoragePermission,
-  ] = Permissions.usePermissions(Permissions.MEDIA_LIBRARY, { ask: true });
-
   const [defaultPic, setDefaultPic] = useState(true);
   const [profilePic, setProfilePic] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -43,6 +31,26 @@ export default function SignupScreen({ navigation }) {
   const [visible, setVisible] = useState(false);
   const [errorCode, setErrorCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [camPerm, setCamPerm] = useState("");
+  const [mediaPerm, setMediaPerm] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      await ImagePicker.requestCameraPermissionsAsync().then(({ status }) => {
+        setCamPerm(status);
+      });
+
+      await ImagePicker.requestMediaLibraryPermissionsAsync().then(
+        ({ status }) => {
+          setMediaPerm(status);
+        }
+      );
+
+      console.log("Camera permission is : " + camPerm);
+
+      console.log("Media permission is : " + mediaPerm);
+    })();
+  });
 
   useEffect(() => {
     (async () => {
@@ -63,8 +71,7 @@ export default function SignupScreen({ navigation }) {
   const onDismissSnackBar = () => setVisible(false);
 
   const takePictureWithCamera = async () => {
-    console.log("Opening Camera");
-    if (!camPermission || camPermission.status !== "granted") {
+    if (camPerm !== "granted") {
       setVisible(true);
       setErrorMessage("Permission for accessing phone camera wasn't granted");
       return;
@@ -86,7 +93,7 @@ export default function SignupScreen({ navigation }) {
   const fetchPictureFromGallery = async () => {
     // Check media storage permissions. Send snackbar error if not given.
     console.log("Opening Gallery");
-    if (!storagePermission || storagePermission.status !== "granted") {
+    if (mediaPerm !== "granted") {
       setVisible(true);
       setErrorMessage("Permission for accessing phone storage wasn't granted");
       return;
@@ -173,74 +180,79 @@ export default function SignupScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Avatar.Image size={100} source={{ uri: profilePic }}></Avatar.Image>
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Avatar.Image size={100} source={{ uri: profilePic }}></Avatar.Image>
+        </View>
+        <View style={styles.linkContainer}>
+          <Text onPress={() => takePictureWithCamera()} style={styles.linkText}>
+            {"Take picture"}
+          </Text>
+          <Text
+            onPress={() => fetchPictureFromGallery()}
+            style={styles.linkText}
+          >
+            {"Get picture from Gallery"}
+          </Text>
+          <Text onPress={() => setDefaultPic(true)} style={styles.linkText}>
+            {"Set default picture"}
+          </Text>
+        </View>
+        <View style={styles.formContainer}>
+          <Title style={styles.titleText}>Let's get started!</Title>
+          <FormInput
+            labelName="Firstname"
+            value={firstName}
+            autoCapitalize="none"
+            onChangeText={(userFirstName) => setFirstName(userFirstName)}
+          />
+          <FormInput
+            labelName="Lastname"
+            value={lastName}
+            autoCapitalize="none"
+            onChangeText={(userLastName) => setLastName(userLastName)}
+          />
+          <FormInput
+            labelName="Email"
+            value={email}
+            autoCapitalize="none"
+            onChangeText={(userEmail) => setEmail(userEmail)}
+          />
+          <FormInput
+            labelName="Password"
+            value={password}
+            secureTextEntry={true}
+            onChangeText={(userPassword) => setPassword(userPassword)}
+          />
+          <FormButton
+            title="Signup"
+            modeValue="contained"
+            labelStyle={styles.loginButtonLabel}
+            onPress={() => register(firstName, lastName, email, password)}
+          />
+          <IconButton
+            icon="keyboard-backspace"
+            size={30}
+            style={styles.navButton}
+            color="#5b3a70"
+            onPress={() => navigation.goBack()}
+          />
+        </View>
+        <Snackbar
+          visible={visible}
+          onDismiss={onDismissSnackBar}
+          action={{
+            label: "Dismiss",
+            onPress: () => {
+              // Do something
+            },
+          }}
+        >
+          {errorMessage}
+        </Snackbar>
       </View>
-      <View style={styles.linkContainer}>
-        <Text onPress={() => takePictureWithCamera()} style={styles.linkText}>
-          {"Take picture"}
-        </Text>
-        <Text onPress={() => fetchPictureFromGallery()} style={styles.linkText}>
-          {"Get picture from Gallery"}
-        </Text>
-        <Text onPress={() => setDefaultPic(true)} style={styles.linkText}>
-          {"Set default picture"}
-        </Text>
-      </View>
-      <View style={styles.formContainer}>
-        <Title style={styles.titleText}>Let's get started!</Title>
-        <FormInput
-          labelName="Firstname"
-          value={firstName}
-          autoCapitalize="none"
-          onChangeText={(userFirstName) => setFirstName(userFirstName)}
-        />
-        <FormInput
-          labelName="Lastname"
-          value={lastName}
-          autoCapitalize="none"
-          onChangeText={(userLastName) => setLastName(userLastName)}
-        />
-        <FormInput
-          labelName="Email"
-          value={email}
-          autoCapitalize="none"
-          onChangeText={(userEmail) => setEmail(userEmail)}
-        />
-        <FormInput
-          labelName="Password"
-          value={password}
-          secureTextEntry={true}
-          onChangeText={(userPassword) => setPassword(userPassword)}
-        />
-        <FormButton
-          title="Signup"
-          modeValue="contained"
-          labelStyle={styles.loginButtonLabel}
-          onPress={() => register(firstName, lastName, email, password)}
-        />
-        <IconButton
-          icon="keyboard-backspace"
-          size={30}
-          style={styles.navButton}
-          color="#5b3a70"
-          onPress={() => navigation.goBack()}
-        />
-      </View>
-      <Snackbar
-        visible={visible}
-        onDismiss={onDismissSnackBar}
-        action={{
-          label: "Dismiss",
-          onPress: () => {
-            // Do something
-          },
-        }}
-      >
-        {errorMessage}
-      </Snackbar>
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({

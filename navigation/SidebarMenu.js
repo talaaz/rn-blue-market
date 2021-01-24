@@ -72,6 +72,12 @@ const InternalMenu = (props) => {
   const navigateToScreen = (navScreen) => {
     props.navigation.navigate(navScreen);
   };
+
+  const signOut = () => {
+    firebase.auth().signOut();
+    props.navigation.navigate("Home");
+  };
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -79,14 +85,11 @@ const InternalMenu = (props) => {
         setSigned(true);
         setProfileURL(user.photoURL);
         setUsername(user.displayName);
-
-        console.log(profileURL);
       } else {
         // No user is signed in.
         setSigned(false);
         setUsername("");
         setProfileURL("");
-        console.log("Not signed in");
       }
     });
   });
@@ -110,7 +113,7 @@ const InternalMenu = (props) => {
       if (index > -1) NotSignedMenu[index].current = true;
     }
   });
-  const ImageContainer = () => {
+  const ImageContainer = (props) => {
     if (signed)
       return (
         <View style={styles.imagecontainer}>
@@ -120,10 +123,7 @@ const InternalMenu = (props) => {
             style={styles.avatarimage}
           />
           <Subheading style={styles.username}>{username}</Subheading>
-          <Text
-            style={styles.linkText}
-            onPress={() => firebase.auth().signOut()}
-          >
+          <Text style={styles.linkText} onPress={() => signOut()}>
             Sign out
           </Text>
         </View>

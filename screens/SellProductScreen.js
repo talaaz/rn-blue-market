@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, Dimensions } from "react-native";
 import { TextInput } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import * as Location from "expo-location";
 
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
@@ -14,33 +15,45 @@ import Colors from "../constants/Colors";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
 const SellProductScreen = (props) => {
-  const [
-    camPermission,
-    askForCameraPermission,
-    getCameraPermission,
-  ] = Permissions.usePermissions(Permissions.CAMERA, { ask: true });
-
-  const [
-    storagePermission,
-    askForStoragePermission,
-    getStoragePermission,
-  ] = Permissions.usePermissions(Permissions.MEDIA_LIBRARY, { ask: true });
-
   const [pictureURL, setPictureURL] = useState("");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingImage, setLoadingImage] = useState(true);
+  const [camPerm, setCamPerm] = useState("");
+  const [mediaPerm, setMediaPerm] = useState("");
+  const [locPerm, setLocPerm] = useState("");
+  useEffect(() => {
+    (async () => {
+      await ImagePicker.requestCameraPermissionsAsync().then(({ status }) => {
+        setCamPerm(status);
+      });
+
+      await ImagePicker.requestMediaLibraryPermissionsAsync().then(
+        ({ status }) => {
+          setMediaPerm(status);
+        }
+      );
+      await Location.requestPermissionsAsync().then(({ status }) => {
+        setLocPerm(status);
+      });
+
+      console.log("Camera permission is : " + camPerm);
+
+      console.log("Media permission is : " + mediaPerm);
+      console.log("Location permission is : " + locPerm);
+    })();
+  });
 
   const takePictureWithCamera = async () => {
     console.log("Opening Camera");
-    if (!camPermission || camPermission.status !== "granted") {
+    //Permission granted open camera.
+
+    if (camPerm !== "granted") {
       console.log("Camera permission not granted");
       return;
     }
-    //Permission granted open camera.
-
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
@@ -54,8 +67,9 @@ const SellProductScreen = (props) => {
   const fetchPictureFromGallery = async () => {
     // Check media storage permissions. Send snackbar error if not given.
     console.log("Opening Gallery");
-    if (!storagePermission || storagePermission.status !== "granted") {
-      console.log("Camera permission not granted");
+
+    if (mediaPerm !== "granted") {
+      console.log("Media permission not granted");
       return;
     }
     //Permission granted open image-picker.
@@ -124,13 +138,13 @@ const SellProductScreen = (props) => {
         .firestore()
         .collection("product")
         .doc();
-      const res = newProductRef.set(data).then(() => {
+      const res = newProductRef.set(data).then(async () => {
         uploadImage(newProductRef);
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
+        if (locPerm === "granted") {
+          Location.getCurrentPositionAsync({}).then((location) => {
             newProductRef.update({
-              long: position.coords.longitude,
-              lat: position.coords.latitude,
+              long: location.coords.longitude,
+              lat: location.coords.latitude,
             });
           });
         }
