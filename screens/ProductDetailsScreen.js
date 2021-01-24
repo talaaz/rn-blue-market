@@ -22,10 +22,11 @@ const ProductDetailsScreen = (props) => {
   );
   //select the product which user has clicked on
   const productId = props.navigation.getParam("productId");
+  //find products matching product id
   const selectedProducts = availableProducts.find(
     (prod) => prod.id === productId
   );
-
+  //dispatch action
   const dispatch = useDispatch();
 
   //UI

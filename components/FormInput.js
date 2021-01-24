@@ -1,6 +1,7 @@
 /*
 https://www.chatkitty.com/blog/posts/building-a-chat-app-with-react-native-and-firebase-part-1/
 */
+//Form Input component for the UI of input fields
 import React from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { TextInput } from "react-native-paper";

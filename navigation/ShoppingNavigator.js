@@ -1,3 +1,5 @@
+//ShoppingNavigator handles all navigation actions in the application
+
 import React from "react";
 import { Platform } from "react-native";
 
@@ -18,7 +20,6 @@ import MapScreen from "../screens/MapScreen";
 import SidebarMenu from "./SidebarMenu";
 import UserProductsScreen from "../screens/UserProductsScreen";
 
-import { Ionicons } from "@expo/vector-icons";
 const defatultStackNavOptions = {
   headerStyle: {
     backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",

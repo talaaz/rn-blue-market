@@ -1,3 +1,4 @@
+//Update the products when fetching action is triggerd
 import { FETCH_PRODUCTS } from "../actions/products";
 
 const initialState = {

@@ -24,10 +24,11 @@ const UserProductsScreen = (props) => {
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  //get data from store
   const productss = useSelector((state) => state.products.availableProducts);
-
+  //dispatch action
   const dispatch = useDispatch();
-
+  //get the current user's id
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -44,11 +45,11 @@ const UserProductsScreen = (props) => {
       setUser(user);
     });
   }, []);
-
+  //fetch products
   useEffect(() => {
     dispatch(productActions.fetchProducts());
   }, [dispatch]);
-
+  //filter products matching the user's id
   const productssById = productss.filter(
     (prod) => prod.ownerId === userId // "lGKJj6DwSseN3Jzm3jjrnZx1uiO2"
   );

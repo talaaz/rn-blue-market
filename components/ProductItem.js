@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Colors from "../constants/Colors";
 import { Card } from "react-native-elements";
-
+//Product item component to make the UI of each product in main screen, here we use Card to visualize our products
 const { width, height } = Dimensions.get("screen");
 
 const ProductItem = (props) => {

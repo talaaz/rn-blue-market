@@ -1,6 +1,7 @@
 /*
 https://www.chatkitty.com/blog/posts/building-a-chat-app-with-react-native-and-firebase-part-1/
 */
+//Loading screen
 import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 

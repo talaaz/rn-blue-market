@@ -1,6 +1,7 @@
 /*
 https://www.chatkitty.com/blog/posts/building-a-chat-app-with-react-native-and-firebase-part-1/
 */
+//FormButton component is made for UI of buttons used multiple times in the code
 import React from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";

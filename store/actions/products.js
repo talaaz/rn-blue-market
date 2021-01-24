@@ -1,3 +1,4 @@
+//Async action to fetch products from firebase
 import { firebase } from "../../firebase";
 
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";

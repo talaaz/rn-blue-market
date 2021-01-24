@@ -53,7 +53,7 @@ const PaymentScreen = (props) => {
     }
     setCardNumber(cardNum);
   };
-
+  //UI using inputs and creditcard component to show the card
   return (
     <View>
       <ScrollView>
@@ -132,7 +132,7 @@ PaymentScreen.navigationOptions = (navData) => {
     ),
   };
 };
-
+//styling
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.backgroundColor,

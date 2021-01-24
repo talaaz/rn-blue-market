@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../store/actions/products";
 import * as cartActions from "../store/actions/cart";
 import { Picker } from "@react-native-picker/picker";
-
 import Colors from "../constants/Colors";
 import {
   StyleSheet,
@@ -21,41 +20,25 @@ import {
 } from "react-native";
 
 const ProductsScreen = (props) => {
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const productss = useSelector((state) => state.products.availableProducts);
-
   const [selectedValue, setSelectedValue] = useState(null);
-
   const [refreshing, setRefreshing] = useState(false);
 
+  //get products from store
+  const productss = useSelector((state) => state.products.availableProducts);
+
+  //dispatch actions
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-
-        setUsername(user.displayName);
-        console.log(username);
-      } else {
-        // No user is signed in.
-        setUsername("");
-
-        console.log("Not signed in");
-      }
-      setUser(user);
-    });
-  }, []);
-
+  //dipatch the action of fething products
   useEffect(() => {
     dispatch(productActions.fetchProducts());
   }, [dispatch]);
-
+  //set the initial value of picker to products
   useEffect(() => {
     setSelectedValue(productss);
   }, [productss]);
 
+  //functions to sort products by price in ascending and descending orders
   const productssAscending = productss.slice(0).sort((a, b) => {
     return parseFloat(a.price) - parseFloat(b.price);
   });
@@ -63,6 +46,7 @@ const ProductsScreen = (props) => {
     return parseFloat(b.price) - parseFloat(a.price);
   });
 
+  //Refresh the screen to fetch new changes from products
   const onRefresh = () => {
     setRefreshing(true);
 
@@ -70,10 +54,11 @@ const ProductsScreen = (props) => {
 
     setRefreshing(false);
   };
+
+  //UI of drop down menu and flatlist
   return (
     <View style={styles.screen}>
       <View style={styles.itemContainer}>
-        {/*<Title> {"Welcome " + username + "!"}</Title>*/}
         <Picker
           selectedValue={selectedValue}
           style={{ height: 50, width: 150 }}
@@ -114,6 +99,7 @@ const ProductsScreen = (props) => {
   );
 };
 
+//Navigation to add header icons
 ProductsScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Blue Market",
@@ -144,6 +130,7 @@ ProductsScreen.navigationOptions = (navData) => {
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     margin: 5,
   },
   itemContainer: {

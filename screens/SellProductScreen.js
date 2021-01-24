@@ -24,6 +24,7 @@ const SellProductScreen = (props) => {
   const [camPerm, setCamPerm] = useState("");
   const [mediaPerm, setMediaPerm] = useState("");
   const [locPerm, setLocPerm] = useState("");
+  //permissions to camera
   useEffect(() => {
     (async () => {
       await ImagePicker.requestCameraPermissionsAsync().then(({ status }) => {
@@ -160,7 +161,7 @@ const SellProductScreen = (props) => {
   if (loading) {
     return <Loading />;
   }
-
+  //UI
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -227,7 +228,7 @@ const SellProductScreen = (props) => {
     </View>
   );
 };
-
+//styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,

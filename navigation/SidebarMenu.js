@@ -1,3 +1,4 @@
+//A costumized sidebar menu, in order to change sign in-sign out and drawer options depending on the signing status
 import React, { useState, useEffect } from "react";
 
 import {

@@ -1,3 +1,4 @@
+//Cart reducer to handle to logic behind the cart actions
 import { ADD_TO_CART, DELETE_FROM_CART, RESET_CART } from "../actions/cart";
 import CartItem from "../../models/cart";
 
@@ -36,6 +37,7 @@ export default (state = initialState, action) => {
       const deletedProduct = action.productId;
 
       let updateCartItems;
+      //If the cart has more than one item
       if (state.items[deletedProduct].quantity > 1) {
         const updateCartItem = new CartItem(
           state.items[deletedProduct].quantity - 1,
@@ -46,6 +48,7 @@ export default (state = initialState, action) => {
         );
         updateCartItems = { ...state.items, [deletedProduct]: updateCartItem };
       } else {
+        //if the cart has only one item
         updateCartItems = { ...state.items };
         delete updateCartItems[deletedProduct];
       }
@@ -56,6 +59,7 @@ export default (state = initialState, action) => {
           state.totalAmount - state.items[deletedProduct].productPrice,
       };
     case RESET_CART:
+      //back to the initial state
       return {
         ...state,
         items: {},

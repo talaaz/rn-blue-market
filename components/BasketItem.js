@@ -1,3 +1,4 @@
+//BasketItem component is made for the UI of each item added to the basket
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -8,6 +9,7 @@ import {
   Platform,
 } from "react-native";
 
+//UI
 const BasketItem = (props) => {
   return (
     <View style={styles.item}>
@@ -29,6 +31,7 @@ const BasketItem = (props) => {
   );
 };
 
+//Add style to basket component
 const styles = StyleSheet.create({
   item: {
     padding: 10,
