@@ -14,7 +14,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import * as cartActions from "../store/actions/cart";
 import Colors from "../constants/Colors";
-
+import Lightbox from "react-native-lightbox";
 const ProductDetailsScreen = (props) => {
   //get data out of store
   const availableProducts = useSelector(
@@ -32,8 +32,14 @@ const ProductDetailsScreen = (props) => {
   //UI
   return (
     <ScrollView style={styles.container}>
-      <Image source={{ uri: selectedProducts.imageUrl }} style={styles.image} />
-
+      <View style={styles.imageContainer}>
+        <Lightbox underlayColor="white">
+          <Image
+            source={{ uri: selectedProducts.imageUrl }}
+            style={styles.image}
+          />
+        </Lightbox>
+      </View>
       <View style={styles.descriptionContainer}>
         <Text>{selectedProducts.description}</Text>
       </View>
@@ -94,6 +100,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundColor,
   },
   image: {
+    width: "100%",
+    height: "100%",
+  },
+  imageContainer: {
     width: "100%",
     height: 200,
   },
