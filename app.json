@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "rn-blue-market",
+    "name": "blue-market",
     "slug": "rn-blue-market",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -29,7 +29,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "host.exp.BlueMarket"
+      "package": "host.exp.BlueMarket",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDpZN9XjHYXDGWED53LWp70pah4Izp87NI"
+        }
+      }
+
     },
     "web": {
       "favicon": "./assets/favicon.png"
