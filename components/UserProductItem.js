@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
 import Colors from "../constants/Colors";
+import Lightbox from "react-native-lightbox";
 
 const UserProductItem = (props) => {
   return (
@@ -9,7 +10,13 @@ const UserProductItem = (props) => {
       <Card>
         <Card.Title>{props.title}</Card.Title>
         <Card.Divider />
-        <Card.Image source={{ uri: props.image }} />
+
+        <View style={styles.imageContainer}>
+          <Lightbox underlayColor="white">
+            <Card.Image source={{ uri: props.image }} style={styles.image} />
+          </Lightbox>
+        </View>
+
         <Card.Divider />
 
         <Text style={{ marginBottom: 10 }}>{props.description}</Text>
@@ -32,5 +39,16 @@ const UserProductItem = (props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+  imageContainer: {
+    width: "100%",
+    height: 200,
+  },
+});
 
 export default UserProductItem;
