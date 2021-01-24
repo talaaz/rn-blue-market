@@ -4,8 +4,6 @@ import { Card } from "react-native-elements";
 import Colors from "../constants/Colors";
 import Lightbox from "react-native-lightbox";
 
-//    /*    <Card.Image source={{ uri: props.image }} />
-
 const UserProductItem = (props) => {
   return (
     <View>
