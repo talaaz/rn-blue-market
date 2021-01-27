@@ -93,7 +93,7 @@ const InternalMenu = (props) => {
         setProfileURL("");
       }
     });
-  });
+  }, []);
   useEffect(() => {
     if (signed) {
       SignedMenu.forEach((obj) => {
